@@ -52,27 +52,23 @@ Plug 'Yggdroot/indentLine'                              " show indentation lines
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}  " better python
 Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
 
 " other
-Plug 'tpope/vim-commentary'                             " better commenting
 Plug 'mhinz/vim-startify'                               " cool start up screen
-Plug 'kristijanhusak/vim-carbon-now-sh'                 " lit code Screenshots
-Plug 'tpope/vim-fugitive'                               " git support
+" Plug 'tpope/vim-fugitive'                               " git support
 Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
 Plug 'farmergreg/vim-lastplace'                         " open files at the last edited place
-Plug 'wellle/tmux-complete.vim'                         " complete words from a tmux panes
-Plug 'liuchengxu/vista.vim'                             " a bar of tags
-Plug 'tpope/vim-eunuch'                                 " run common Unix commands inside Vim
-Plug 'machakann/vim-sandwich'                           " make sandwiches
-Plug 'easymotion/vim-easymotion'                        " make movement a lot faster and easier
+" Plug 'liuchengxu/vista.vim'                             " a bar of tags
+" Plug 'tpope/vim-eunuch'                                 " run common Unix commands inside Vim
+" Plug 'machakann/vim-sandwich'                           " make sandwiches
+" Plug 'easymotion/vim-easymotion'                        " make movement a lot faster and easier
 
 " other
-Plug 'jiangmiao/auto-pairs'
 " Plug 'sbdchd/neoformat'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'machakann/vim-highlightedyank'
-Plug 'tmhedberg/SimpylFold'
+" Plug 'tmhedberg/SimpylFold'
 
 call plug#end()
 
@@ -109,8 +105,8 @@ set foldlevel=0                                         " open all folds by defa
 set inccommand=nosplit                                  " visual feedback while substituting
 
 " Python VirtualEnv
-let g:python_host_prog =  expand('/usr/bin/python')
-let g:python3_host_prog = expand('/usr/bin/python3')
+" let g:python_host_prog =  expand('/usr/bin/python')
+let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 
 
 " performance tweaks
@@ -162,7 +158,6 @@ let g:coc_global_extensions = [
             \'coc-tsserver',
             \'coc-yaml',
             \'coc-lists',
-            \'coc-snippets',
             \'coc-python',
             \'coc-clangd',
             \'coc-prettier',
@@ -323,10 +318,9 @@ endfunction
 
 "" the essentials
 let mapleader=","
-nnoremap ; :
 nmap \ <leader>q
 map <F6> :Startify <CR>
-nmap <leader>r :so ~/.config/nvim/init.vim<CR>
+nmap <leader>r :so $MYVIMRC<CR>
 nmap <leader>q :bd<CR>
 nmap <leader>w :w<CR>
 map <leader>s :Format<CR>
@@ -383,16 +377,6 @@ vmap <F1> <plug>(fzf-maps-x)
 
 "" coc
 
-" use tab to navigate snippet placeholders
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Use enter to accept snippet expansion
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
-
 " multi cursor shortcuts
 nmap <silent> <C-a> <Plug>(coc-cursors-word)
 xmap <silent> <C-a> <Plug>(coc-cursors-range)
@@ -406,20 +390,21 @@ nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>o :OR <CR>
 
 " jump stuff
-nmap <leader>jd <Plug>(coc-definition)
-nmap <leader>jy <Plug>(coc-type-definition)
-nmap <leader>ji <Plug>(coc-implementation)
-nmap <leader>jr <Plug>(coc-references)
+nmap <leader>nd <Plug>(coc-definition)
+nmap <leader>nt <Plug>(coc-type-definition)
+nmap <leader>ni <Plug>(coc-implementation)
+nmap <leader>nr <Plug>(coc-references)
+nmap <leader>ns :call <SID>show_documentation()<CR>
 
 " other coc actions
 vmap <leader>a <Plug>(coc-codeaction-selected)
 nmap <leader>a <Plug>(coc-codeaction-selected)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " fugitive mappings
 nmap <leader>gd :Gdiffsplit<CR>
 nmap <leader>gb :Gblame<CR>
 
+autocmd FileType python nnoremap <leader>re :CocCommand python.execInTerminal<CR>
 "}}}
 
 

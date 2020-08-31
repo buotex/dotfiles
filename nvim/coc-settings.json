@@ -75,5 +75,6 @@
   // other stuff (language specific)
   "python.autoComplete.addBrackets": true,
   "python.jediEnabled": false,
+  "python.formatting.provider": "black",
   "html.autoClosingTags": true
 }
