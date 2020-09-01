@@ -1,6 +1,18 @@
 " ============= Vim-Plug ============== "{{{
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
 
-let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
+if g:os == "Windows"
+    let vimplug_exists=expand('~/Appdata/Local/nvim/autoload/plug.vim')
+    let g:python3_host_prog=expand('~/miniconda3/envs/neovim/python.exe')
+elseif g:os == "Linux"
+    let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
+endif
 
 let g:vim_bootstrap_langs = "c,erlang,go"
 let g:vim_bootstrap_editor = "nvim"				" Nvim or Vim
