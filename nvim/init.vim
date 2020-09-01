@@ -312,6 +312,20 @@ function! s:show_documentation()
   endif
 endfunction
 
+augroup terminal_settings
+    autocmd!
+
+    autocmd BufWinEnter,WinEnter term://* startinsert
+    autocmd BufLeave term://* stopinsert
+
+    " Ignore various filetypes as those will close terminal automatically
+    " Ignore fzf, ranger, coc
+    autocmd TermClose term://*
+                \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
+                \   call nvim_input('<CR>')  |
+                \ endif
+augroup END
+
 "}}}
 
 " ======================== Custom Mappings ====================== "{{{
@@ -416,11 +430,11 @@ noremap <C-h> <C-W>h
 noremap <C-e> <C-W>k
 
 
-map <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
-nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
+"map <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+"map <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
+"map <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
+"map <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
+"nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""'
 
