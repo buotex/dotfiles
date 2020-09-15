@@ -39,9 +39,9 @@ Plug 'vim-airline/vim-airline'                          " airline status bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'                           " pretty icons everywhere
 Plug 'luochen1990/rainbow'                              " rainbow parenthesis
-Plug 'hzchirs/vim-material'                             " material color themes
+" Plug 'hzchirs/vim-material'                             " material color themes
 Plug 'morhetz/gruvbox'                                  " gruvbox theme
-Plug 'gregsexton/MatchTag'                              " highlight matching html tags
+" Plug 'gregsexton/MatchTag'                              " highlight matching html tags
 
 "}}}
 
@@ -57,7 +57,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'urbainvaes/fzf-marks', { 'dir': '$HOME/.fzf-marks', 'do': 'echo source $HOME/.fzf-marks/fzf-marks.plugin.bash >> ~/.bashrc' }
 
 " visual
-Plug 'alvan/vim-closetag'                               " auto close html tags
+" Plug 'alvan/vim-closetag'                               " auto close html tags
 Plug 'Yggdroot/indentLine'                              " show indentation lines
 
 " languages
@@ -68,8 +68,8 @@ Plug 'JuliaEditorSupport/julia-vim'
 
 " other
 Plug 'mhinz/vim-startify'                               " cool start up screen
-" Plug 'tpope/vim-fugitive'                               " git support
-Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
+Plug 'tpope/vim-fugitive'                               " git support
+" Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
 Plug 'farmergreg/vim-lastplace'                         " open files at the last edited place
 " Plug 'liuchengxu/vista.vim'                             " a bar of tags
 " Plug 'tpope/vim-eunuch'                                 " run common Unix commands inside Vim
@@ -78,9 +78,10 @@ Plug 'farmergreg/vim-lastplace'                         " open files at the last
 
 " other
 " Plug 'sbdchd/neoformat'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 Plug 'machakann/vim-highlightedyank'
 " Plug 'tmhedberg/SimpylFold'
+Plug 'tpope/vim-obsession'
 
 call plug#end()
 
@@ -108,7 +109,7 @@ set splitbelow                                          " open horizontal split 
 set tw=90                                               " auto wrap lines that are longer than that
 set emoji                                               " enable emojis
 let g:indentLine_setConceal = 0                         " actually fix the annoying markdown links conversion
-au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
+" au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
 set history=1000                                        " history limit
 set backspace=indent,eol,start                          " sensible backspacing
 set undofile                                            " enable persistent undo
@@ -125,7 +126,7 @@ let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 set nocursorline
 set nocursorcolumn
 set scrolljump=5
-set redrawtime=10000
+" set redrawtime=10000
 set synmaxcol=180
 set re=1
 
@@ -139,7 +140,7 @@ let g:airline_powerline_fonts = 1
 " ======================== Plugin Configurations ======================== "{{{
 
 "" built in plugins
-let loaded_netrw = 0                                    " diable netew
+" let loaded_netrw = 0                                    " diable netew
 let g:omni_sql_no_default_maps = 1                      " disable sql omni completion
 
 " Airline
@@ -346,10 +347,10 @@ map <Enter> o<ESC>
 map <S-Enter> O<ESC>
 
 " use a different register for delete and paste
-nnoremap d "_d
-vnoremap d "_d
-vnoremap p "_dP
-nnoremap x "_x
+" nnoremap d "_d
+" vnoremap d "_d
+" vnoremap p "_dP
+" nnoremap x "_x
 
 " emulate windows copy, cut behavior
 vnoremap <LeftRelease> "+y<LeftRelease>

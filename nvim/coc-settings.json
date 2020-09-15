@@ -76,5 +76,6 @@
   "python.autoComplete.addBrackets": true,
   "python.jediEnabled": false,
   "python.formatting.provider": "black",
-  "html.autoClosingTags": true
+  "html.autoClosingTags": true,
+  "http.proxy": "http://127.0.0.1:3129"
 }
