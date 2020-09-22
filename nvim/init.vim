@@ -62,7 +62,7 @@ Plug 'Yggdroot/indentLine'                              " show indentation lines
 
 " languages
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}  " better python
-Plug 'derekwyatt/vim-scala'
+" Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
 " Plug 'neomake/neomake'
 
@@ -95,7 +95,8 @@ filetype plugin indent on                               " enable indentations
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent            " tab key actions
 set incsearch ignorecase smartcase hlsearch             " highlight text while searching
 set list listchars=trail:»,tab:»-                       " use tab to navigate in list mode
-set wrap breakindent                                    " wrap long lines to the width set by tw
+" set wrap breakindent                                    " wrap long lines to the width set by tw
+set nowrap
 
 
 set encoding=utf-8                                      " text encoding
@@ -106,7 +107,7 @@ set noshowmode                                          " dont show current mode
 set conceallevel=2                                      " set this so we wont break indentation plugin
 set splitright                                          " open vertical split to the right
 set splitbelow                                          " open horizontal split to the bottom
-set tw=90                                               " auto wrap lines that are longer than that
+"set tw=90                                               " auto wrap lines that are longer than that
 set emoji                                               " enable emojis
 let g:indentLine_setConceal = 0                         " actually fix the annoying markdown links conversion
 " au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
@@ -126,7 +127,7 @@ let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 set nocursorline
 set nocursorcolumn
 set scrolljump=5
-" set redrawtime=10000
+"set redrawtime=1000
 set synmaxcol=180
 set re=1
 
@@ -158,13 +159,12 @@ let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on
 "" coc
 
 " Navigate snippet placeholders using tab
-let g:coc_snippet_next = '<Tab>'
-let g:coc_snippet_prev = '<S-Tab>'
+" let g:coc_snippet_next = '<Tab>'
+" let g:coc_snippet_prev = '<S-Tab>'
 
 " list of the extensions to make sure are always installed
 let g:coc_global_extensions = [
             \'coc-yank',
-            \'coc-pairs',
             \'coc-json',
             \'coc-css',
             \'coc-html',
@@ -173,12 +173,15 @@ let g:coc_global_extensions = [
             \'coc-lists',
             \'coc-python',
             \'coc-clangd',
-            \'coc-prettier',
             \'coc-xml',
             \'coc-syntax',
+            \'coc-prettier',
             \'coc-git',
             \'coc-marketplace',
+            \'coc-metals',
+            \'coc-vetur'
             \]
+            " "\'coc-pairs',
 
 " indentLine
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -310,11 +313,36 @@ function! StartifyEntryFormat()
     return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
 
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 " check if last inserted char is a backspace (used by coc pmenu)
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
 " show docs on things with K
 function! s:show_documentation()
@@ -337,8 +365,8 @@ nmap <leader>r :so $MYVIMRC<CR>
 nmap <leader>q :bd<CR>
 nmap <leader>w :w<CR>
 map <leader>s :Format<CR>
-nmap <Tab> :bnext<CR>
-nmap <S-Tab> :bprevious<CR>
+nnoremap <C-W><PageDown> :bnext<CR>
+nnoremap <C-W><PageUp> :bprevious<CR>
 noremap <leader>e :PlugInstall<CR>
 noremap <C-q> :q<CR>
 
@@ -429,11 +457,11 @@ noremap <C-h> <C-W>h
 noremap <C-e> <C-W>k
 
 
-map <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
-nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
+"map <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+"map <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
+"map <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
+"map <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
+"nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""'
 

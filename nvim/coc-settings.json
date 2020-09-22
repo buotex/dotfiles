@@ -77,5 +77,12 @@
   "python.jediEnabled": false,
   "python.formatting.provider": "black",
   "html.autoClosingTags": true,
-  "http.proxy": "http://127.0.0.1:3129"
+  "http.proxy": "http://127.0.0.1:3129",
+  "https.proxy": "http://127.0.0.1:3129",
+  "metals.serverProperties": [
+    "-Dhttp.proxyHost=127.0.0.1",
+    "-Dhttp.proxyPort=3129",
+    "-Dhttps.proxyHost=127.0.0.1",
+    "-Dhttps.proxyPort=3129"
+  ]
 }
