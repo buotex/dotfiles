@@ -82,6 +82,7 @@ Plug 'farmergreg/vim-lastplace'                         " open files at the last
 Plug 'machakann/vim-highlightedyank'
 " Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-obsession'
+Plug 'lambdalisue/fern.vim'
 
 call plug#end()
 
@@ -141,7 +142,7 @@ let g:airline_powerline_fonts = 1
 " ======================== Plugin Configurations ======================== "{{{
 
 "" built in plugins
-" let loaded_netrw = 0                                    " diable netew
+let loaded_netrw = 0                                    " diable netew
 let g:omni_sql_no_default_maps = 1                      " disable sql omni completion
 
 " Airline
@@ -296,6 +297,37 @@ command! -bang -nargs=? -complete=dir Files
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 "}}}
+
+" Fern browser
+function! s:init_fern() abort
+  " Use 'select' instead of 'edit' for default 'open' action
+  nmap <buffer> <Plug>(fern-action-open) <Plug>(fern-action-open:select)
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
+
+" Disable netrw
+let g:loaded_netrw             = 1
+let g:loaded_netrwPlugin       = 1
+let g:loaded_netrwSettings     = 1
+let g:loaded_netrwFileHandlers = 1
+
+augroup my-fern-hijack
+  autocmd!
+  autocmd BufEnter * ++nested call s:hijack_directory()
+augroup END
+
+function! s:hijack_directory() abort
+  let path = expand('%:p')
+  if !isdirectory(path)
+    return
+  endif
+  bwipeout %
+  execute printf('Fern %s', fnameescape(path))
+endfunction
 
 " ================== Custom Functions ===================== "{{{
 
