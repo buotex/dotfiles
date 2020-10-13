@@ -52,7 +52,7 @@ fi
 # files can be used after `z4h init`.
 #
 # This is just an example. If you don't plan to use Oh My Zsh, delete this.
-# z4h install ohmyzsh/ohmyzsh || return
+z4h install ohmyzsh/ohmyzsh || return
 
 # Install or update core components (fzf, zsh-autosuggestions, etc.) and
 # initialize Zsh. After this point console I/O is unavailable. Everything
@@ -73,13 +73,15 @@ path=(~/bin $path)
 # Use additional Git repositories pulled in with `z4h install`.
 #
 # This is just an example that you should delete. It doesn't do anything useful.
+z4h install pyenv/pyenv || return
+z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/pyenv/pyenv.plugin.zsh
+
 # z4h source $Z4H/ohmyzsh/ohmyzsh/lib/diagnostics.zsh
 # z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/emoji-clock/emoji-clock.plugin.zsh
 # fpath+=($Z4H/ohmyzsh/ohmyzsh/plugins/supervisor)
 
 
 # Define key bindings.
-bindkey -M emacs '^H' backward-kill-word # Ctrl-H and Ctrl-Backspace: Delete previous word.
 
 # Sort completion candidates when pressing Tab?
 zstyle ':completion:*'                           sort               false
