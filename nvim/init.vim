@@ -12,6 +12,7 @@ if g:os == "Windows"
     let g:python3_host_prog=expand('~/miniconda3/envs/neovim/python.exe')
 elseif g:os == "Linux"
     let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
+    let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 endif
 
 let g:vim_bootstrap_langs = "c,erlang,go"
@@ -62,6 +63,8 @@ Plug 'Yggdroot/indentLine'                              " show indentation lines
 
 " languages
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}  " better python
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'dense-analysis/ale'
 " Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
 " Plug 'neomake/neomake'
@@ -121,7 +124,6 @@ set inccommand=nosplit                                  " visual feedback while 
 
 " Python VirtualEnv
 " let g:python_host_prog =  expand('/usr/bin/python')
-let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 
 
 " performance tweaks
@@ -135,6 +137,8 @@ set re=1
 
 " visuals
 colorscheme gruvbox
+let g:gruvbox_guisp_fallback = 'bg'
+
 set background=dark " use dark mode
 let g:airline_powerline_fonts = 1
 
@@ -166,22 +170,22 @@ let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on
 " list of the extensions to make sure are always installed
 let g:coc_global_extensions = [
             \'coc-yank',
-            \'coc-json',
-            \'coc-css',
-            \'coc-html',
             \'coc-tsserver',
             \'coc-yaml',
-            \'coc-lists',
             \'coc-python',
-            \'coc-clangd',
-            \'coc-xml',
-            \'coc-syntax',
-            \'coc-prettier',
-            \'coc-git',
-            \'coc-marketplace',
-            \'coc-metals',
-            \'coc-vetur'
             \]
+"            \'coc-json',
+"            \'coc-css',
+"            \'coc-html',
+"            \'coc-lists',
+"            \'coc-clangd',
+"            \'coc-xml',
+"            \'coc-syntax',
+"            \'coc-prettier',
+"            \'coc-git',
+"            \'coc-marketplace',
+"            \'coc-metals',
+"            \'coc-vetur'
             " "\'coc-pairs',
 
 " indentLine
@@ -259,7 +263,7 @@ au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto com
 autocmd FileType help wincmd L                          " open help in vertical split
 
 " enable spell only if file type is normal text
-let spellable = ['markdown', 'gitcommit', 'txt', 'text', 'liquid', 'rst']
+let spellable = ['markdown', 'gitcommit', 'txt', 'text', 'liquid']
 autocmd BufEnter * if index(spellable, &ft) < 0 | set nospell | else | set spell | endif
 
 " coc completion popup
@@ -480,7 +484,36 @@ nmap <leader>gb :Gblame<CR>
 autocmd FileType python nnoremap <leader>re :CocCommand python.execInTerminal<CR>
 "}}}
 
+" ALE settings
+let g:ale_linters = {
+      \   'python': ['flake8', 'pylint'],
+      \   'ruby': ['standardrb', 'rubocop'],
+      \   'javascript': ['eslint'],
+      \}
 
+let g:ale_fixers = {
+      \    'python': ['yapf'],
+      \}
+nmap <F10> :ALEFix<CR>
+let g:ale_fix_on_save = 1
+function! LinterStatus() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+
+  return l:counts.total == 0 ? '✨ all good ✨' : printf(
+        \   '😞 %dW %dE',
+        \   all_non_errors,
+        \   all_errors
+        \)
+endfunction
+
+set statusline=
+set statusline+=%m
+set statusline+=\ %f
+set statusline+=%=
+set statusline+=\ %{LinterStatus()}
 
 
 noremap <C-n> <C-W>j
