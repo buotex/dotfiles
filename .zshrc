@@ -106,3 +106,7 @@ alias ls="${aliases[ls]:-ls} -A"
 
 # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
 setopt glob_dots  # glob matches files starting with dot; `ls *` becomes equivalent to `ls *(D)`
+# Enable direnv hooks if direnv is installed.
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
