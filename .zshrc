@@ -110,8 +110,15 @@ setopt glob_dots  # glob matches files starting with dot; `ls *` becomes equival
 # fnm
 z4h install Schniz/fnm || return
 export PATH=/home/xub2rng/.fnm:$PATH
-eval "`fnm env --multi`"
+if (( $+commands[fnm] )); then
+    eval "`fnm env --multi`"
+fi
 
 #nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+# Enable direnv hooks if direnv is installed.
+if (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
