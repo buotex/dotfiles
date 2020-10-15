@@ -12,6 +12,7 @@ if g:os == "Windows"
     let g:python3_host_prog=expand('~/miniconda3/envs/neovim/python.exe')
 elseif g:os == "Linux"
     let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
+    let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 endif
 
 let g:vim_bootstrap_langs = "c,erlang,go"
@@ -39,9 +40,9 @@ Plug 'vim-airline/vim-airline'                          " airline status bar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'                           " pretty icons everywhere
 Plug 'luochen1990/rainbow'                              " rainbow parenthesis
-Plug 'hzchirs/vim-material'                             " material color themes
+" Plug 'hzchirs/vim-material'                             " material color themes
 Plug 'morhetz/gruvbox'                                  " gruvbox theme
-Plug 'gregsexton/MatchTag'                              " highlight matching html tags
+" Plug 'gregsexton/MatchTag'                              " highlight matching html tags
 
 "}}}
 
@@ -57,19 +58,21 @@ Plug 'junegunn/fzf.vim'
 Plug 'urbainvaes/fzf-marks', { 'dir': '$HOME/.fzf-marks', 'do': 'echo source $HOME/.fzf-marks/fzf-marks.plugin.bash >> ~/.bashrc' }
 
 " visual
-Plug 'alvan/vim-closetag'                               " auto close html tags
+" Plug 'alvan/vim-closetag'                               " auto close html tags
 Plug 'Yggdroot/indentLine'                              " show indentation lines
 
 " languages
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}  " better python
-Plug 'derekwyatt/vim-scala'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'dense-analysis/ale'
+" Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
 " Plug 'neomake/neomake'
 
 " other
 Plug 'mhinz/vim-startify'                               " cool start up screen
-" Plug 'tpope/vim-fugitive'                               " git support
-Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
+Plug 'tpope/vim-fugitive'                               " git support
+" Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
 Plug 'farmergreg/vim-lastplace'                         " open files at the last edited place
 " Plug 'liuchengxu/vista.vim'                             " a bar of tags
 " Plug 'tpope/vim-eunuch'                                 " run common Unix commands inside Vim
@@ -78,9 +81,11 @@ Plug 'farmergreg/vim-lastplace'                         " open files at the last
 
 " other
 " Plug 'sbdchd/neoformat'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 Plug 'machakann/vim-highlightedyank'
 " Plug 'tmhedberg/SimpylFold'
+Plug 'tpope/vim-obsession'
+Plug 'lambdalisue/fern.vim'
 
 call plug#end()
 
@@ -94,7 +99,8 @@ filetype plugin indent on                               " enable indentations
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent            " tab key actions
 set incsearch ignorecase smartcase hlsearch             " highlight text while searching
 set list listchars=trail:»,tab:»-                       " use tab to navigate in list mode
-set wrap breakindent                                    " wrap long lines to the width set by tw
+" set wrap breakindent                                    " wrap long lines to the width set by tw
+set nowrap
 
 
 set encoding=utf-8                                      " text encoding
@@ -105,10 +111,10 @@ set noshowmode                                          " dont show current mode
 set conceallevel=2                                      " set this so we wont break indentation plugin
 set splitright                                          " open vertical split to the right
 set splitbelow                                          " open horizontal split to the bottom
-set tw=90                                               " auto wrap lines that are longer than that
+"set tw=90                                               " auto wrap lines that are longer than that
 set emoji                                               " enable emojis
 let g:indentLine_setConceal = 0                         " actually fix the annoying markdown links conversion
-au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
+" au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
 set history=1000                                        " history limit
 set backspace=indent,eol,start                          " sensible backspacing
 set undofile                                            " enable persistent undo
@@ -118,20 +124,21 @@ set inccommand=nosplit                                  " visual feedback while 
 
 " Python VirtualEnv
 " let g:python_host_prog =  expand('/usr/bin/python')
-let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 
 
 " performance tweaks
 set nocursorline
 set nocursorcolumn
 set scrolljump=5
-set redrawtime=10000
+"set redrawtime=1000
 set synmaxcol=180
 set re=1
 
 
 " visuals
 colorscheme gruvbox
+let g:gruvbox_guisp_fallback = 'bg'
+
 set background=dark " use dark mode
 let g:airline_powerline_fonts = 1
 
@@ -157,27 +164,29 @@ let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on
 "" coc
 
 " Navigate snippet placeholders using tab
-let g:coc_snippet_next = '<Tab>'
-let g:coc_snippet_prev = '<S-Tab>'
+" let g:coc_snippet_next = '<Tab>'
+" let g:coc_snippet_prev = '<S-Tab>'
 
 " list of the extensions to make sure are always installed
 let g:coc_global_extensions = [
             \'coc-yank',
-            \'coc-pairs',
-            \'coc-json',
-            \'coc-css',
-            \'coc-html',
             \'coc-tsserver',
             \'coc-yaml',
-            \'coc-lists',
             \'coc-python',
-            \'coc-clangd',
-            \'coc-prettier',
-            \'coc-xml',
-            \'coc-syntax',
-            \'coc-git',
-            \'coc-marketplace',
             \]
+"            \'coc-json',
+"            \'coc-css',
+"            \'coc-html',
+"            \'coc-lists',
+"            \'coc-clangd',
+"            \'coc-xml',
+"            \'coc-syntax',
+"            \'coc-prettier',
+"            \'coc-git',
+"            \'coc-marketplace',
+"            \'coc-metals',
+"            \'coc-vetur'
+            " "\'coc-pairs',
 
 " indentLine
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -254,7 +263,7 @@ au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto com
 autocmd FileType help wincmd L                          " open help in vertical split
 
 " enable spell only if file type is normal text
-let spellable = ['markdown', 'gitcommit', 'txt', 'text', 'liquid', 'rst']
+let spellable = ['markdown', 'gitcommit', 'txt', 'text', 'liquid']
 autocmd BufEnter * if index(spellable, &ft) < 0 | set nospell | else | set spell | endif
 
 " coc completion popup
@@ -293,6 +302,37 @@ command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 "}}}
 
+" Fern browser
+function! s:init_fern() abort
+  " Use 'select' instead of 'edit' for default 'open' action
+  nmap <buffer> <Plug>(fern-action-open) <Plug>(fern-action-open:select)
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
+
+" Disable netrw
+let g:loaded_netrw             = 1
+let g:loaded_netrwPlugin       = 1
+let g:loaded_netrwSettings     = 1
+let g:loaded_netrwFileHandlers = 1
+
+augroup my-fern-hijack
+  autocmd!
+  autocmd BufEnter * ++nested call s:hijack_directory()
+augroup END
+
+function! s:hijack_directory() abort
+  let path = expand('%:p')
+  if !isdirectory(path)
+    return
+  endif
+  bwipeout %
+  execute printf('Fern %s', fnameescape(path))
+endfunction
+
 " ================== Custom Functions ===================== "{{{
 
 " advanced grep(faster with preview)
@@ -309,11 +349,36 @@ function! StartifyEntryFormat()
     return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
 
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 " check if last inserted char is a backspace (used by coc pmenu)
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
 " show docs on things with K
 function! s:show_documentation()
@@ -350,8 +415,8 @@ nmap <leader>r :so $MYVIMRC<CR>
 nmap <leader>q :bd<CR>
 nmap <leader>w :w<CR>
 map <leader>s :Format<CR>
-nmap <Tab> :bnext<CR>
-nmap <S-Tab> :bprevious<CR>
+nnoremap <C-W><PageDown> :bnext<CR>
+nnoremap <C-W><PageUp> :bprevious<CR>
 noremap <leader>e :PlugInstall<CR>
 noremap <C-q> :q<CR>
 
@@ -360,10 +425,10 @@ map <Enter> o<ESC>
 map <S-Enter> O<ESC>
 
 " use a different register for delete and paste
-nnoremap d "_d
-vnoremap d "_d
-vnoremap p "_dP
-nnoremap x "_x
+" nnoremap d "_d
+" vnoremap d "_d
+" vnoremap p "_dP
+" nnoremap x "_x
 
 " emulate windows copy, cut behavior
 vnoremap <LeftRelease> "+y<LeftRelease>
@@ -433,7 +498,36 @@ nmap <leader>gb :Gblame<CR>
 autocmd FileType python nnoremap <leader>re :CocCommand python.execInTerminal<CR>
 "}}}
 
+" ALE settings
+let g:ale_linters = {
+      \   'python': ['flake8', 'pylint'],
+      \   'ruby': ['standardrb', 'rubocop'],
+      \   'javascript': ['eslint'],
+      \}
 
+let g:ale_fixers = {
+      \    'python': ['yapf'],
+      \}
+nmap <F10> :ALEFix<CR>
+let g:ale_fix_on_save = 1
+function! LinterStatus() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+
+  return l:counts.total == 0 ? '✨ all good ✨' : printf(
+        \   '😞 %dW %dE',
+        \   all_non_errors,
+        \   all_errors
+        \)
+endfunction
+
+set statusline=
+set statusline+=%m
+set statusline+=\ %f
+set statusline+=%=
+set statusline+=\ %{LinterStatus()}
 
 
 noremap <C-n> <C-W>j
