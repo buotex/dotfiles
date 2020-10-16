@@ -89,7 +89,7 @@ zstyle ':completion:*'                           sort               false
 zstyle ':zle:(up|down)-line-or-beginning-search' leave-cursor       no
 # When presented with the list of choices upon hitting Tab, accept selection and
 # trigger another completion with this key binding. Great for completing file paths.
-zstyle ':fzf-tab:*'                              continuous-trigger tab
+zstyle ':fzf-tab:*'                              continuous-trigger '/'
 
 # Autoload functions.
 autoload -Uz zmv
@@ -121,4 +121,12 @@ export NVM_DIR="$HOME/.nvm"
 # Enable direnv hooks if direnv is installed.
 if (( $+commands[direnv] )); then
   eval "$(direnv hook zsh)"
+fi
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+if [[ -d $PYENV_ROOT ]]; then
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
 fi
