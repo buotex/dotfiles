@@ -86,7 +86,7 @@ z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/pyenv/pyenv.plugin.zsh
 # Sort completion candidates when pressing Tab?
 zstyle ':completion:*'                           sort               false
 # Should cursor go to the end when Up/Down/Ctrl-Up/Ctrl-Down fetches a command from history?
-zstyle ':zle:(up|down)-line-or-beginning-search' leave-cursor       no
+zstyle ':zle:(up|down)-line-or-beginning-search' leave-cursor       yes
 # When presented with the list of choices upon hitting Tab, accept selection and
 # trigger another completion with this key binding. Great for completing file paths.
 zstyle ':fzf-tab:*'                              continuous-trigger '/'
@@ -100,6 +100,7 @@ compdef _directories md
 
 # Define aliases.
 alias tree='tree -a -I .git'
+alias vim='nvim.appimage'
 
 # Add flags to existing aliases.
 alias ls="${aliases[ls]:-ls} -A"
@@ -130,3 +131,5 @@ if [[ -d $PYENV_ROOT ]]; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
