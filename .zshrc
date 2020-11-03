@@ -51,7 +51,7 @@ z4h init || return
 export GPG_TTY=$TTY
 
 # Extend PATH.
-path=(~/bin $path)
+path=(~/bin /home/xub2rng/applications/spark-2.4.5-bin-hadoop2.7/bin/ $path)
 
 # Use additional Git repositories pulled in with `z4h install`.
 #
@@ -62,7 +62,6 @@ z4h source $Z4H/zsh-pyenv/zsh-pyenv.plugin.zsh
 fpath+=($Z4H/ohmyzsh/ohmyzsh/plugins/supervisor)
 
 # Define key bindings.
-z4h bindkey z4h-backward-kill-word  Ctrl+Backspace Ctrl+H
 z4h bindkey z4h-backward-kill-zword Ctrl+Alt+Backspace
 
 z4h bindkey undo Ctrl+/  # undo the last command line change
