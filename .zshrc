@@ -21,9 +21,6 @@ zstyle ':z4h:cd-down'         fzf-bindings     'tab:down'
 # command autosuggestions or the whole thing ('accept')?
 zstyle ':z4h:autosuggestions' forward-char     'accept'
 
-# Send these files over to the remote host when connecting over ssh.
-# Multiple files can be listed here.
-zstyle ':z4h:ssh:*'           send-extra-files '~/.iterm2_shell_integration.zsh'
 # Disable automatic teleportation of z4h over ssh when connecting to some-host.
 # This makes `ssh some-host` equivalent to `command ssh some-host`.
 zstyle ':z4h:ssh:some-host'   passthrough      'yes'
@@ -34,12 +31,9 @@ zstyle ':zle:down-line-or-beginning-search' leave-cursor 'yes'
 
 # Clone additional Git repositories from GitHub.
 #
-# This doesn't do anything apart from cloning the repository and keeping it
-# up-to-date. Cloned files can be used after `z4h init`. This is just an
-# example. If you don't plan to use Oh My Zsh, delete this line.
 z4h install ohmyzsh/ohmyzsh || return
 z4h install pyenv/pyenv || return
-z4h install mattberther/zsh-pyenv || return
+z4h install pyenv/pyenv-virtualenv || return
 
 # Install or update core components (fzf, zsh-autosuggestions, etc.) and
 # initialize Zsh. After this point console I/O is unavailable until Zsh
@@ -58,8 +52,7 @@ path=(~/bin /home/xub2rng/applications/spark-2.4.5-bin-hadoop2.7/bin/ $path)
 # This is just an example that you should delete. It does nothing useful.
 z4h source $Z4H/ohmyzsh/ohmyzsh/lib/diagnostics.zsh
 z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/emoji-clock/emoji-clock.plugin.zsh
-z4h source $Z4H/zsh-pyenv/zsh-pyenv.plugin.zsh
-fpath+=($Z4H/ohmyzsh/ohmyzsh/plugins/supervisor)
+# z4h source $Z4H/zsh-pyenv/zsh-pyenv.plugin.zsh
 
 # Define key bindings.
 z4h bindkey z4h-backward-kill-zword Ctrl+Alt+Backspace
@@ -112,11 +105,13 @@ if (( $+commands[direnv] )); then
 fi
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="$Z4H/pyenv/pyenv"
 if [[ -d $PYENV_ROOT ]]; then
   export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
+  ln -sf $Z4H/pyenv/pyenv-virtualenv $Z4H/pyenv/pyenv/plugins
+  eval "$(pyenv init - --no-rehash zsh)"
+  eval "$(pyenv virtualenv-init - zsh)"
+  z4h source $Z4H/pyenv/pyenv/completions/pyenv.zsh
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
