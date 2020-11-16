@@ -56,7 +56,7 @@
     "python.autoComplete.addBrackets": true,
     "python.jediEnabled": false,
     "python.formatting.provider": "black",
-    "python.pythonPath": "~/.pyenv/shims/python",
+    "python.pythonPath": "~/.cache/zsh4humans/v4/pyenv/pyenv/shims/python",
     "html.autoClosingTags": true,
     "http.proxy": "http://127.0.0.1:3129",
     "https.proxy": "http://127.0.0.1:3129",

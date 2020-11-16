@@ -12,7 +12,7 @@ if g:os == "Windows"
     let g:python3_host_prog=expand('~/miniconda3/envs/neovim/python.exe')
 elseif g:os == "Linux"
     let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
-    let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
+    let g:python3_host_prog = expand('~/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/python3')
 endif
 
 let g:vim_bootstrap_langs = "c,erlang,go"
