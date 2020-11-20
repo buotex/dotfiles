@@ -116,4 +116,4 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source $HOME/.$(hostname).zsh
+[ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
