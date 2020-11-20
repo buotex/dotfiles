@@ -114,6 +114,6 @@ if [[ -d $PYENV_ROOT ]]; then
   z4h source $Z4H/pyenv/pyenv/completions/pyenv.zsh
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $Z4H/fzf/fzf.zsh ] && source $Z4H/fzf/fzf.zsh
 
 [ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
