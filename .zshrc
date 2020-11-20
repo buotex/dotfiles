@@ -90,7 +90,7 @@ setopt no_auto_menu  # require an extra TAB press to open the completion menu
 
 # fnm
 z4h install Schniz/fnm || return
-export PATH=/home/xub2rng/.fnm:$PATH
+export PATH=$HOME/.fnm:$PATH
 if (( $+commands[fnm] )); then
     eval "`fnm env --multi`"
 fi
@@ -115,3 +115,5 @@ if [[ -d $PYENV_ROOT ]]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source $HOME/.$(hostname).zsh
