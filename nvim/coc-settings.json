@@ -58,12 +58,4 @@
     "python.formatting.provider": "black",
     "python.pythonPath": "~/.cache/zsh4humans/v4/pyenv/pyenv/shims/python",
     "html.autoClosingTags": true,
-    "http.proxy": "http://127.0.0.1:3129",
-    "https.proxy": "http://127.0.0.1:3129",
-    "metals.serverProperties": [
-        "-Dhttp.proxyHost=127.0.0.1",
-        "-Dhttp.proxyPort=3129",
-        "-Dhttps.proxyHost=127.0.0.1",
-        "-Dhttps.proxyPort=3129"
-    ]
 }
