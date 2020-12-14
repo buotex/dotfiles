@@ -35,6 +35,7 @@ z4h install ohmyzsh/ohmyzsh || return
 z4h install pyenv/pyenv || return
 z4h install pyenv/pyenv-virtualenv || return
 z4h install pyenv/pyenv-which-ext || return
+z4h install nvm-sh/nvm || return
 
 # Install or update core components (fzf, zsh-autosuggestions, etc.) and
 # initialize Zsh. After this point console I/O is unavailable until Zsh
@@ -46,7 +47,7 @@ z4h init || return
 export GPG_TTY=$TTY
 
 # Extend PATH.
-path=(~/bin /home/xub2rng/applications/spark-2.4.5-bin-hadoop2.7/bin/ $path)
+path=(~/bin $path)
 
 # Use additional Git repositories pulled in with `z4h install`.
 #
@@ -91,13 +92,13 @@ setopt no_auto_menu  # require an extra TAB press to open the completion menu
 
 # fnm
 z4h install Schniz/fnm || return
-export PATH=/home/xub2rng/.fnm:$PATH
+export PATH=$HOME/.fnm:$PATH
 if (( $+commands[fnm] )); then
     eval "`fnm env --multi`"
 fi
 
 #nvm
-export NVM_DIR="$HOME/.nvm"
+export NVM_DIR="$Z4H/nvm-sh/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Enable direnv hooks if direnv is installed.
@@ -115,6 +116,10 @@ if [[ -d $PYENV_ROOT ]]; then
   eval "$(pyenv virtualenv-init - zsh)"
   z4h source $Z4H/pyenv/pyenv/completions/pyenv.zsh
 fi
+
+[ -f $Z4H/fzf/fzf.zsh ] && source $Z4H/fzf/fzf.zsh
+
+[ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
