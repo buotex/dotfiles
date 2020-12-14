@@ -67,9 +67,10 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'dense-analysis/ale'
 " Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
-" Plug 'neomake/neomake'
+Plug 'neomake/neomake'
 
 " other
+Plug 'vim-test/vim-test'
 Plug 'mhinz/vim-startify'                               " cool start up screen
 Plug 'tpope/vim-fugitive'                               " git support
 " Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
@@ -121,6 +122,9 @@ set undofile                                            " enable persistent undo
 set undodir=/tmp                                        " undo temp file directory
 set foldlevel=0                                         " open all folds by default
 set inccommand=nosplit                                  " visual feedback while substituting
+" allow external rc files
+set exrc
+set secure
 
 " Python VirtualEnv
 " let g:python_host_prog =  expand('/usr/bin/python')
@@ -161,7 +165,23 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_min_count = 2   " show tabline only if there is more than 1 buffer
 let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on tabs
 
+let test#strategy = "neomake"
+nnoremap <F5> :Neomake<CR>
+let g:neomake_python_enabled_makers = ['pytest']
+let g:neomake_python_pytest_maker = {
+    \ 'exe': 'py.test',
+    \ 'errorformat': &errorformat,
+    \ 'append_file': 1,
+    \ }
+let g:neomake_python_tox_maker = {
+    \ 'exe': 'tox',
+    \ 'errorformat': &errorformat,
+    \ }
+let test#neovim#term_position = "right"
+
+
 "" coc
+let g:neomake_open_list = 2
 
 " Navigate snippet placeholders using tab
 " let g:coc_snippet_next = '<Tab>'
@@ -172,8 +192,8 @@ let g:coc_global_extensions = [
             \'coc-yank',
             \'coc-tsserver',
             \'coc-yaml',
-            \'coc-python',
             \]
+"            \'coc-python',
 "            \'coc-json',
 "            \'coc-css',
 "            \'coc-html',
@@ -480,13 +500,6 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>o :OR <CR>
 
-" jump stuff
-nmap <leader>nd <Plug>(coc-definition)
-nmap <leader>nt <Plug>(coc-type-definition)
-nmap <leader>ni <Plug>(coc-implementation)
-nmap <leader>nr <Plug>(coc-references)
-nmap <leader>ns :call <SID>show_documentation()<CR>
-
 " other coc actions
 vmap <leader>a <Plug>(coc-codeaction-selected)
 nmap <leader>a <Plug>(coc-codeaction-selected)
@@ -495,39 +508,63 @@ nmap <leader>a <Plug>(coc-codeaction-selected)
 nmap <leader>gd :Gdiffsplit<CR>
 nmap <leader>gb :Gblame<CR>
 
-autocmd FileType python nnoremap <leader>re :CocCommand python.execInTerminal<CR>
-"}}}
+" testing
+nmap <leader>tn :TestNearest<CR>
+nmap <leader>tf :TestFile<CR>
+nmap <leader>tl :TestLast<CR>
 
 " ALE settings
+let g:ale_virtualenv_dir_names = []
 let g:ale_linters = {
-      \   'python': ['flake8', 'pylint'],
+      \   'python': ['pyflakes'],
       \   'ruby': ['standardrb', 'rubocop'],
       \   'javascript': ['eslint'],
       \}
 
 let g:ale_fixers = {
-      \    'python': ['yapf']
+      \    'python': ['black']
       \}
 nmap <F10> :ALEFix<CR>
+let b:python_pyflakes_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes"
+let b:ale_python_pyflakes_use_global = 1
+let b:python_black_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/black"
+let b:ale_python_black_use_global = 1
+let b:python_flake8_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/flake8"
+let b:ale_python_flake8_use_global = 1
+
 let g:ale_fix_on_save = 1
-function! LinterStatus() abort
+function! LinterWarning() abort
   let l:counts = ale#statusline#Count(bufnr(''))
 
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
 
-  return l:counts.total == 0 ? '✨ all good ✨' : printf(
-        \   '😞 %dW %dE',
+  return l:counts.total == 0 ? '' : printf(
+        \   '%dW',
         \   all_non_errors,
+        \)
+endfunction
+function! LinterError() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+
+  let l:all_errors = l:counts.error + l:counts.style_error
+
+  return l:counts.total == 0 ? '' : printf(
+        \   '😞 %dE',
         \   all_errors
         \)
 endfunction
 
-set statusline=
-set statusline+=%m
-set statusline+=\ %f
-set statusline+=%=
-set statusline+=\ %{LinterStatus()}
+"set statusline=
+"set statusline+=%m
+"set statusline+=\ %f
+"set statusline+=%=
+"set statusline+=\ %{LinterStatus()}
+"let g:airline#extensions#ale#enabled = 1
+"call airline#parts#define_function('lint_warning', 'LinterWarning')
+"call airline#parts#define_function('lint_error', 'LinterError')
+"let g:airline_section_warning = airline#section#create_right(['lint_warning'])
+"let g:airline_section_error = airline#section#create_right(['lint_error'])
 
 
 noremap <C-n> <C-W>j
