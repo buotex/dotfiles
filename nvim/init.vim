@@ -525,11 +525,11 @@ let g:ale_fixers = {
       \    'python': ['black']
       \}
 nmap <F10> :ALEFix<CR>
-let b:python_pyflakes_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes"
+let b:ale_python_pyflakes_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes"
 let b:ale_python_pyflakes_use_global = 1
-let b:python_black_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/black"
+let b:ale_python_black_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/black"
 let b:ale_python_black_use_global = 1
-let b:python_flake8_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/flake8"
+let b:ale_python_flake8_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/flake8"
 let b:ale_python_flake8_use_global = 1
 
 let g:ale_fix_on_save = 1
