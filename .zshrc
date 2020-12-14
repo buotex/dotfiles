@@ -34,6 +34,7 @@ zstyle ':zle:down-line-or-beginning-search' leave-cursor 'yes'
 z4h install ohmyzsh/ohmyzsh || return
 z4h install pyenv/pyenv || return
 z4h install pyenv/pyenv-virtualenv || return
+z4h install pyenv/pyenv-which-ext || return
 
 # Install or update core components (fzf, zsh-autosuggestions, etc.) and
 # initialize Zsh. After this point console I/O is unavailable until Zsh
@@ -109,9 +110,13 @@ export PYENV_ROOT="$Z4H/pyenv/pyenv"
 if [[ -d $PYENV_ROOT ]]; then
   export PATH="$PYENV_ROOT/bin:$PATH"
   ln -sf $Z4H/pyenv/pyenv-virtualenv $Z4H/pyenv/pyenv/plugins
+  ln -sf $Z4H/pyenv/pyenv-which-ext $Z4H/pyenv/pyenv/plugins
   eval "$(pyenv init - --no-rehash zsh)"
   eval "$(pyenv virtualenv-init - zsh)"
   z4h source $Z4H/pyenv/pyenv/completions/pyenv.zsh
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias git="noglob /usr/bin/git"
+export EDITOR=vim
