@@ -292,13 +292,9 @@ autocmd FileType help wincmd L                          " open help in vertical 
 let spellable = ['markdown', 'gitcommit', 'txt', 'text', 'liquid']
 autocmd BufEnter * if index(spellable, &ft) < 0 | set nospell | else | set spell | endif
 
-" coc completion popup
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " autostart startify
 augroup startifier
-    " startify when there is no open buffer left
-    autocmd BufDelete * if empty(filter(tabpagebuflist(), '!buflisted(v:val)')) | Startify | endif
 
     " open startify on start
     autocmd VimEnter * if argc() == 0 | Startify | endif
@@ -406,15 +402,6 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
-" show docs on things with K
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
 augroup terminal_settings
     autocmd!
 
@@ -443,8 +430,6 @@ nmap <leader>w :w<CR>
 map <leader>s :Format<CR>
 nnoremap <C-W><PageDown> :bnext<CR>
 nnoremap <C-W><PageUp> :bprevious<CR>
-noremap <leader>e :PlugInstall<CR>
-noremap <C-q> :q<CR>
 
 " new line in normal mode and back
 map <Enter> o<ESC>
@@ -473,9 +458,6 @@ nnoremap <C-l> <C-w>l
 
 " disable hl with 2 esc
 noremap <silent><esc> <esc>:noh<CR><esc>
-
-" trim white spaces
-nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 "" FZF
 nnoremap <silent> <leader>f :Files<CR>
@@ -540,27 +522,6 @@ let g:ale_python_flake8_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/py
 let g:ale_python_flake8_use_global = 1
 
 let g:ale_fix_on_save = 1
-function! LinterWarning() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-
-  let l:all_errors = l:counts.error + l:counts.style_error
-  let l:all_non_errors = l:counts.total - l:all_errors
-
-  return l:counts.total == 0 ? '' : printf(
-        \   '%dW',
-        \   all_non_errors,
-        \)
-endfunction
-function! LinterError() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-
-  let l:all_errors = l:counts.error + l:counts.style_error
-
-  return l:counts.total == 0 ? '' : printf(
-        \   '😞 %dE',
-        \   all_errors
-        \)
-endfunction
 
 "set statusline=
 "set statusline+=%m
