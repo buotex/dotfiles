@@ -86,6 +86,7 @@ Plug 'farmergreg/vim-lastplace'                         " open files at the last
 Plug 'machakann/vim-highlightedyank'
 " Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-unimpaired'
 Plug 'lambdalisue/fern.vim'
 
 call plug#end()
@@ -167,7 +168,12 @@ let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on
 
 let test#strategy = "neomake"
 nnoremap <F5> :Neomake<CR>
-let g:neomake_python_enabled_makers = ['pytest']
+let g:neomake_python_enabled_makers = []
+let g:neomake_python_pyflakes_maker = {
+    \ 'exe': expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes"),
+    \ 'errorformat': &errorformat,
+    \ 'append_file': 1,
+    \ }
 let g:neomake_python_pytest_maker = {
     \ 'exe': 'py.test',
     \ 'errorformat': &errorformat,
@@ -514,6 +520,7 @@ nmap <leader>tf :TestFile<CR>
 nmap <leader>tl :TestLast<CR>
 
 " ALE settings
+let g:ale_set_quickfix = 1
 let g:ale_virtualenv_dir_names = []
 let g:ale_linters = {
       \   'python': ['pyflakes'],
@@ -525,12 +532,12 @@ let g:ale_fixers = {
       \    'python': ['black']
       \}
 nmap <F10> :ALEFix<CR>
-let b:ale_python_pyflakes_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes"
-let b:ale_python_pyflakes_use_global = 1
-let b:ale_python_black_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/black"
-let b:ale_python_black_use_global = 1
-let b:ale_python_flake8_executable = "$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/flake8"
-let b:ale_python_flake8_use_global = 1
+let g:ale_python_pyflakes_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes")
+let g:ale_python_pyflakes_use_global = 1
+let g:ale_python_black_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/black")
+let g:ale_python_black_use_global = 1
+let g:ale_python_flake8_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/flake8")
+let g:ale_python_flake8_use_global = 1
 
 let g:ale_fix_on_save = 1
 function! LinterWarning() abort
