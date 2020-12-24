@@ -50,7 +50,11 @@ Plug 'morhetz/gruvbox'                                  " gruvbox theme
 " ================= Functionalities ================= "{{{
 
 " auto completion, Lang servers and stuff
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'roxma/nvim-yarp'
 
 " fuzzy stuff
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -65,9 +69,10 @@ Plug 'Yggdroot/indentLine'                              " show indentation lines
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}  " better python
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'dense-analysis/ale'
+Plug 'ncm2/ncm2-jedi'
 " Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
-Plug 'neomake/neomake'
+" Plug 'neomake/neomake'
 
 " other
 Plug 'vim-test/vim-test'
@@ -87,7 +92,9 @@ Plug 'machakann/vim-highlightedyank'
 " Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-dispatch'
 Plug 'lambdalisue/fern.vim'
+Plug 'kassio/neoterm'
 
 call plug#end()
 
@@ -116,7 +123,6 @@ set splitbelow                                          " open horizontal split 
 "set tw=90                                               " auto wrap lines that are longer than that
 set emoji                                               " enable emojis
 let g:indentLine_setConceal = 0                         " actually fix the annoying markdown links conversion
-" au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
 set history=1000                                        " history limit
 set backspace=indent,eol,start                          " sensible backspacing
 set undofile                                            " enable persistent undo
@@ -166,39 +172,38 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_min_count = 2   " show tabline only if there is more than 1 buffer
 let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on tabs
 
-let test#strategy = "neomake"
-nnoremap <F5> :Neomake<CR>
-let g:neomake_python_enabled_makers = []
-let g:neomake_python_pyflakes_maker = {
-    \ 'exe': expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes"),
-    \ 'errorformat': &errorformat,
-    \ 'append_file': 1,
-    \ }
-let g:neomake_python_pytest_maker = {
-    \ 'exe': 'py.test',
-    \ 'errorformat': &errorformat,
-    \ 'append_file': 1,
-    \ }
-let g:neomake_python_tox_maker = {
-    \ 'exe': 'tox',
-    \ 'errorformat': &errorformat,
-    \ }
-let test#neovim#term_position = "right"
+let test#strategy = "neoterm"
+let g:neoterm_direct_open_repl = 0
+let g:neoterm_autoinsert = 1
+"let g:neoterm_autojump = 1
+"let g:neoterm_autojump = 1
+let g:neoterm_autoscroll = 1
+let g:neoterm_keep_term_open = 0
+let g:neoterm_callbacks = {}
+function! g:neoterm_callbacks.before_new()
+    if winwidth('.') > 100
+        let g:neoterm_default_mod = 'botright vertical'
+    else
+        let g:neoterm_default_mod = 'botright'
+    end
+endfunction
+tnoremap <C-w> <C-\><C-n><C-w>
+autocmd FileType python map <F5> <ESC>:w<CR>:T python % <CR>
+autocmd BufWinEnter,WinEnter term://* startinsert
+autocmd BufLeave term://* stopinsert
 
-
-"" coc
-let g:neomake_open_list = 2
 
 " Navigate snippet placeholders using tab
 " let g:coc_snippet_next = '<Tab>'
 " let g:coc_snippet_prev = '<S-Tab>'
 
 " list of the extensions to make sure are always installed
-let g:coc_global_extensions = [
-            \'coc-yank',
-            \'coc-tsserver',
-            \'coc-yaml',
-            \]
+"let g:coc_global_extensions = [
+"            \'coc-yank',
+"            \'coc-tsserver',
+"            \'coc-yaml',
+"            \'coc-prettier',
+"            \]
 "            \'coc-python',
 "            \'coc-json',
 "            \'coc-css',
@@ -213,6 +218,8 @@ let g:coc_global_extensions = [
 "            \'coc-metals',
 "            \'coc-vetur'
             " "\'coc-pairs',
+
+autocmd FileType python let b:coc_suggest_disable = 1
 
 " indentLine
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -286,6 +293,7 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/**'"
 " ======================== Commands ============================= "{{{
 
 au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
+autocmd BufEnter * call ncm2#enable_for_buffer()
 autocmd FileType help wincmd L                          " open help in vertical split
 
 " enable spell only if file type is normal text
@@ -371,50 +379,7 @@ function! StartifyEntryFormat()
     return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" check if last inserted char is a backspace (used by coc pmenu)
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-augroup terminal_settings
-    autocmd!
-
-    autocmd BufWinEnter,WinEnter term://* startinsert
-    autocmd BufLeave term://* stopinsert
-
-    " Ignore various filetypes as those will close terminal automatically
-    " Ignore fzf, ranger, coc
-    autocmd TermClose term://*
-                \ if (expand('<afile>') !~ "fzf") && (expand('<afile>') !~ "ranger") && (expand('<afile>') !~ "coc") |
-                \   call nvim_input('<CR>')  |
-                \ endif
-augroup END
 
 "}}}
 
@@ -481,16 +446,11 @@ nmap <silent> <C-a> <Plug>(coc-cursors-word)
 xmap <silent> <C-a> <Plug>(coc-cursors-range)
 
 " Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [g <Plug>(ALENextWrap)
+nmap <silent> ]g <Plug>(ALEPreviousWrap)
 
 " other stuff
-nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>o :OR <CR>
-
-" other coc actions
-vmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " fugitive mappings
 nmap <leader>gd :Gdiffsplit<CR>
@@ -502,7 +462,9 @@ nmap <leader>tf :TestFile<CR>
 nmap <leader>tl :TestLast<CR>
 
 " ALE settings
-let g:ale_set_quickfix = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_set_quickfix = 0
 let g:ale_virtualenv_dir_names = []
 let g:ale_linters = {
       \   'python': ['pyflakes'],
@@ -511,7 +473,8 @@ let g:ale_linters = {
       \}
 
 let g:ale_fixers = {
-      \    'python': ['black']
+      \    'python': ['black'],
+      \    'vue': ['prettier']
       \}
 nmap <F10> :ALEFix<CR>
 let g:ale_python_pyflakes_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes")
@@ -523,17 +486,15 @@ let g:ale_python_flake8_use_global = 1
 
 let g:ale_fix_on_save = 1
 
-"set statusline=
-"set statusline+=%m
-"set statusline+=\ %f
-"set statusline+=%=
-"set statusline+=\ %{LinterStatus()}
-"let g:airline#extensions#ale#enabled = 1
-"call airline#parts#define_function('lint_warning', 'LinterWarning')
-"call airline#parts#define_function('lint_error', 'LinterError')
-"let g:airline_section_warning = airline#section#create_right(['lint_warning'])
-"let g:airline_section_error = airline#section#create_right(['lint_error'])
+" NCM settings
+set shortmess+=c
+set completeopt=noinsert,menuone,noselect
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+
+" Mapping
 
 noremap <C-n> <C-W>j
 noremap <C-i> <C-W>l
