@@ -50,7 +50,6 @@ Plug 'morhetz/gruvbox'                                  " gruvbox theme
 " ================= Functionalities ================= "{{{
 
 " auto completion, Lang servers and stuff
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
@@ -193,33 +192,6 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
 
 
-" Navigate snippet placeholders using tab
-" let g:coc_snippet_next = '<Tab>'
-" let g:coc_snippet_prev = '<S-Tab>'
-
-" list of the extensions to make sure are always installed
-"let g:coc_global_extensions = [
-"            \'coc-yank',
-"            \'coc-tsserver',
-"            \'coc-yaml',
-"            \'coc-prettier',
-"            \]
-"            \'coc-python',
-"            \'coc-json',
-"            \'coc-css',
-"            \'coc-html',
-"            \'coc-lists',
-"            \'coc-clangd',
-"            \'coc-xml',
-"            \'coc-syntax',
-"            \'coc-prettier',
-"            \'coc-git',
-"            \'coc-marketplace',
-"            \'coc-metals',
-"            \'coc-vetur'
-            " "\'coc-pairs',
-
-autocmd FileType python let b:coc_suggest_disable = 1
 
 " indentLine
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -251,7 +223,6 @@ let g:startify_commands = [
     \ {'ch':  ['Health Check', ':checkhealth']},
     \ {'ps': ['Plugins status', ':PlugStatus']},
     \ {'pu': ['Update vim plugins',':PlugUpdate | PlugUpgrade']},
-    \ {'uc': ['Update coc Plugins', ':CocUpdate']},
     \ {'h':  ['Help', ':help']},
     \ ]
 
@@ -317,11 +288,6 @@ autocmd BufReadPost *
 " python renaming
 autocmd FileType python nnoremap <leader>rn :Semshi rename <CR>
 
-" format with available file format formatter
-command! -nargs=0 Format :call CocAction('format')
-
-" organize imports
-command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " files in fzf
 command! -bang -nargs=? -complete=dir Files
@@ -439,11 +405,6 @@ nmap <F1> <plug>(fzf-maps-n)
 imap <F1> <plug>(fzf-maps-i)
 vmap <F1> <plug>(fzf-maps-x)
 
-"" coc
-
-" multi cursor shortcuts
-nmap <silent> <C-a> <Plug>(coc-cursors-word)
-xmap <silent> <C-a> <Plug>(coc-cursors-range)
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(ALENextWrap)
