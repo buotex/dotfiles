@@ -76,7 +76,7 @@ Plug 'JuliaEditorSupport/julia-vim'
 " other
 Plug 'vim-test/vim-test'
 Plug 'mhinz/vim-startify'                               " cool start up screen
-Plug 'tpope/vim-fugitive'                               " git support
+Plug 'airblade/vim-gitgutter'                               " git support
 " Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
 Plug 'farmergreg/vim-lastplace'                         " open files at the last edited place
 " Plug 'liuchengxu/vista.vim'                             " a bar of tags
