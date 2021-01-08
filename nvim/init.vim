@@ -12,7 +12,7 @@ if g:os == "Windows"
     let g:python3_host_prog=expand('~/miniconda3/envs/neovim/python.exe')
 elseif g:os == "Linux"
     let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
-    let g:python3_host_prog = expand('~/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/python3')
+    let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
 endif
 
 let g:vim_bootstrap_langs = "c,erlang,go"
@@ -186,8 +186,10 @@ function! g:neoterm_callbacks.before_new()
         let g:neoterm_default_mod = 'botright'
     end
 endfunction
+noremap <F4> :TREPLSendFile<CR>
 tnoremap <C-w> <C-\><C-n><C-w>
-autocmd FileType python map <F5> <ESC>:w<CR>:T python % <CR>
+autocmd FileType python noremap <buffer> <F5> <ESC>:w<CR>:T python % <CR>
+autocmd FileType julia noremap <buffer> <F5> <ESC>:w<CR>:T julia % <CR>
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
 
@@ -438,11 +440,11 @@ let g:ale_fixers = {
       \    'vue': ['prettier']
       \}
 nmap <F10> :ALEFix<CR>
-let g:ale_python_pyflakes_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/pyflakes")
+let g:ale_python_pyflakes_executable = expand("$HOME/.pyenv/versions/neovim/bin/pyflakes")
 let g:ale_python_pyflakes_use_global = 1
-let g:ale_python_black_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/black")
+let g:ale_python_black_executable = expand("$HOME/.pyenv/versions/neovim/bin/black")
 let g:ale_python_black_use_global = 1
-let g:ale_python_flake8_executable = expand("$HOME/.cache/zsh4humans/v4/pyenv/pyenv/versions/neovim/bin/flake8")
+let g:ale_python_flake8_executable = expand("$HOME/.pyenv/versions/neovim/bin/flake8")
 let g:ale_python_flake8_use_global = 1
 
 let g:ale_fix_on_save = 1
