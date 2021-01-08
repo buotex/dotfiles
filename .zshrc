@@ -107,9 +107,9 @@ if (( $+commands[direnv] )); then
 fi
 
 # pyenv
-export PYENV_ROOT="$Z4H/pyenv/pyenv"
+export PYENV_ROOT="$HOME/.pyenv"
 if [[ -d $PYENV_ROOT ]]; then
-  export PATH="$PYENV_ROOT/bin:$PATH"
+  export PATH="$Z4H/pyenv/pyenv/bin:$PATH"
   ln -sf $Z4H/pyenv/pyenv-virtualenv $Z4H/pyenv/pyenv/plugins
   ln -sf $Z4H/pyenv/pyenv-which-ext $Z4H/pyenv/pyenv/plugins
   eval "$(pyenv init - --no-rehash zsh)"
