@@ -69,6 +69,7 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}  " better python
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'dense-analysis/ale'
 Plug 'ncm2/ncm2-jedi'
+Plug 'davidhalter/jedi-vim'
 " Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
 " Plug 'neomake/neomake'
@@ -203,6 +204,11 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_setColors = 0
 let g:indentLine_setConceal = 0                         " actually fix the annoying markdown links conversion
 let g:indentLine_fileTypeExclude = ['startify']
+
+" jedi
+let g:jedi#completions_enabled = 0
+let g:jedi#environment_path = expand("$HOME/.pyenv/versions/neovim/bin/python3.9")
+
 
 "" startify
 let g:startify_padding_left = 10
