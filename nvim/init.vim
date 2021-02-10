@@ -191,7 +191,7 @@ endfunction
 noremap <F4> :TREPLSendFile<CR>
 tnoremap <C-w> <C-\><C-n><C-w>
 autocmd FileType python noremap <buffer> <F5> <ESC>:w<CR>:T python % <CR>
-autocmd FileType python setlocal makeprg=python\ %
+"autocmd FileType python setlocal makeprg=python\ %
 autocmd FileType python compiler python
 autocmd FileType julia noremap <buffer> <F5> <ESC>:w<CR>:T julia % <CR>
 autocmd BufWinEnter,WinEnter term://* startinsert
@@ -208,6 +208,7 @@ let g:indentLine_fileTypeExclude = ['startify']
 " jedi
 let g:jedi#completions_enabled = 0
 let g:jedi#environment_path = expand("$HOME/.pyenv/versions/neovim/bin/python3.9")
+let g:jedi#documentation_command = "<leader>k"
 
 
 "" startify
@@ -366,10 +367,10 @@ endfunction
 let mapleader=","
 nmap \ <leader>q
 map <F6> :Startify <CR>
-nmap <leader>r :so $MYVIMRC<CR>
+nmap <leader>re :so $MYVIMRC<CR>
 nmap <leader>q :bd<CR>
 nmap <leader>w :w<CR>
-map <leader>fo :Format<CR>
+" map <leader>fo :Format<CR>
 nnoremap <C-W><PageDown> :bnext<CR>
 nnoremap <C-W><PageUp> :bprevious<CR>
 
@@ -418,8 +419,8 @@ vmap <F1> <plug>(fzf-maps-x)
 
 
 " Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(ALENextWrap)
-nmap <silent> ]g <Plug>(ALEPreviousWrap)
+nmap [g <Plug>(ale_next_wrap)
+nmap ]g <Plug>(ale_previous_wrap)
 
 " other stuff
 nmap <leader>o :OR <CR>
@@ -458,6 +459,7 @@ let g:ale_python_flake8_use_global = 1
 
 let g:ale_fix_on_save = 1
 
+
 " NCM settings
 set shortmess+=c
 set completeopt=noinsert,menuone,noselect
@@ -474,10 +476,10 @@ noremap <C-h> <C-W>h
 noremap <C-e> <C-W>k
 
 
-"map <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+map <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 "map <leader>t :tabe <C-R>=expand("%:p:h") . "/" <CR>
-"map <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
-"map <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
+map <leader>s :split <C-R>=expand("%:p:h") . "/" <CR>
+map <leader>v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
 "nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""'
