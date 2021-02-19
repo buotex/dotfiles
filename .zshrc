@@ -23,7 +23,7 @@ zstyle ':z4h:autosuggestions' forward-char     'accept'
 
 # Disable automatic teleportation of z4h over ssh when connecting to some-host.
 # This makes `ssh some-host` equivalent to `command ssh some-host`.
-zstyle ':z4h:ssh:some-host'   passthrough      'yes'
+zstyle ':z4h:ssh:*'   passthrough      'no'
 
 # Move the cursor to the end when Up/Down fetches a command from history?
 zstyle ':zle:up-line-or-beginning-search'   leave-cursor 'yes'
@@ -110,9 +110,8 @@ fi
 export PYENV_ROOT="$HOME/.pyenv"
 if [[ -d $PYENV_ROOT ]]; then
   export PATH="$Z4H/pyenv/pyenv/bin:$PATH"
-  ln -sf $Z4H/pyenv/pyenv-virtualenv $Z4H/pyenv/pyenv/plugins
-  ln -sf $Z4H/pyenv/pyenv-which-ext $Z4H/pyenv/pyenv/plugins
-  ln -sf $Z4H/pyenv/pyenv/plugins $PYENV_ROOT
+  ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins
+  ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins
   eval "$(pyenv init - --no-rehash zsh)"
   eval "$(pyenv virtualenv-init - zsh)"
   z4h source $Z4H/pyenv/pyenv/completions/pyenv.zsh
