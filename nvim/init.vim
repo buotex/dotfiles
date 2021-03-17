@@ -81,10 +81,7 @@ Plug 'mhinz/vim-startify'                               " cool start up screen
 Plug 'airblade/vim-gitgutter'                               " git support
 " Plug 'psliwka/vim-smoothie'                             " some very smooth ass scrolling
 Plug 'farmergreg/vim-lastplace'                         " open files at the last edited place
-" Plug 'liuchengxu/vista.vim'                             " a bar of tags
-" Plug 'tpope/vim-eunuch'                                 " run common Unix commands inside Vim
-" Plug 'machakann/vim-sandwich'                           " make sandwiches
-" Plug 'easymotion/vim-easymotion'                        " make movement a lot faster and easier
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
 " other
 " Plug 'sbdchd/neoformat'
@@ -118,7 +115,7 @@ set number                                              " enable numbers on the 
 " set relativenumber                                      " current line is 0
 set title                                               " tab title as file name
 set noshowmode                                          " dont show current mode below statusline
-set conceallevel=2                                      " set this so we wont break indentation plugin
+set conceallevel=0                                      " set this so we wont break indentation plugin
 set splitright                                          " open vertical split to the right
 set splitbelow                                          " open horizontal split to the bottom
 "set tw=90                                               " auto wrap lines that are longer than that
@@ -208,7 +205,15 @@ let g:indentLine_fileTypeExclude = ['startify']
 " jedi
 let g:jedi#completions_enabled = 0
 let g:jedi#environment_path = expand("$HOME/.pyenv/versions/neovim/bin/python3.9")
-let g:jedi#documentation_command = "<leader>k"
+let g:jedi#goto_assignments_command = "<leader>ja"
+let g:jedi#goto_command = "<leader>n"
+let g:jedi#goto_stubs_command = "<leader>js"
+let g:jedi#rename_command = "<leader>jr"
+let g:jedi#usages_command= "<leader>ju"
+let g:jedi#documentation_command = "<leader>jd"
+
+" doge
+let g:doge_doc_standard_python="google"
 
 
 "" startify
@@ -290,6 +295,8 @@ augroup startifier
     " open startify on start
     autocmd VimEnter * if argc() == 0 | Startify | endif
 augroup END
+autocmd User Startified for key in ['e','n','i'] |
+          \ execute 'nunmap <buffer>' key | endfor
 
 " Return to last edit position when opening files
 autocmd BufReadPost *
@@ -364,7 +371,8 @@ endfunction
 " ======================== Custom Mappings ====================== "{{{
 
 "" the essentials
-let mapleader=","
+"let mapleader="<space>"
+map <space> <leader>
 nmap \ <leader>q
 map <F6> :Startify <CR>
 nmap <leader>re :so $MYVIMRC<CR>
@@ -488,22 +496,28 @@ inoremap <c-j> <c-n>
 cnoremap <c-j> <c-n>
 
 " rotate some keys about to get qwerty "hjkl" back for movement
-noremap n <down>
-noremap e <up>
-noremap i <right>
+"noremap n <down>
+"noremap e <up>
+"noremap i <right>
+noremap n j
+noremap e k
+noremap i l
+noremap h h
+
+noremap j e
+noremap k n
+noremap l i
+
 
 " move these keys to their qwerty positions because they are
 " in the way of hjkl (and E for J)
-noremap k n
 noremap K N
-noremap l i
 noremap L I
 noremap N J
 noremap E K
 noremap I L
 "
 "" this is the only key that isn't in qwerty or colemak position
-noremap j e
 noremap J E
 
 " window movement
