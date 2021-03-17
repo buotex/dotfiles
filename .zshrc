@@ -110,8 +110,8 @@ fi
 export PYENV_ROOT="$HOME/.pyenv"
 if [[ -d $PYENV_ROOT ]]; then
   export PATH="$Z4H/pyenv/pyenv/bin:$PATH"
-  ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins
-  ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins
+  if [[ ! -d $PYENV_ROOT/plugins/pyenv-virtualenv ]]; then; ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins; fi
+  if [[ ! -d $PYENV_ROOT/plugins/pyenv-which-ext ]]; then; ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins; fi
   eval "$(pyenv init - --no-rehash zsh)"
   eval "$(pyenv virtualenv-init - zsh)"
   z4h source $Z4H/pyenv/pyenv/completions/pyenv.zsh
