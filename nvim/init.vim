@@ -91,6 +91,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/fern.vim'
 Plug 'kassio/neoterm'
 
@@ -280,6 +281,8 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/**'"
 
 " ======================== Commands ============================= "{{{
 
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
 au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
 autocmd BufEnter * call ncm2#enable_for_buffer()
 autocmd FileType help wincmd L                          " open help in vertical split
@@ -314,6 +317,7 @@ command! -bang -nargs=? -complete=dir Files
 
 " advanced grep
 command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+set grepprg=rg\ --vimgrep
 
 "}}}
 
