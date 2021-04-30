@@ -281,6 +281,8 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/**'"
 
 " ======================== Commands ============================= "{{{
 
+autocmd FileType python :set makeprg=pre-commit\ run \--all
+
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
 au BufEnter * set fo-=c fo-=r fo-=o                     " stop annoying auto commenting on new lines
