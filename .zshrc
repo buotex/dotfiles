@@ -36,6 +36,7 @@ z4h install pyenv/pyenv || return
 z4h install pyenv/pyenv-virtualenv || return
 z4h install pyenv/pyenv-which-ext || return
 z4h install nvm-sh/nvm || return
+z4h install esc/conda-zsh-completion || return
 
 # Install or update core components (fzf, zsh-autosuggestions, etc.) and
 # initialize Zsh. After this point console I/O is unavailable until Zsh
@@ -52,8 +53,9 @@ path=(~/bin $path)
 # Use additional Git repositories pulled in with `z4h install`.
 #
 # This is just an example that you should delete. It does nothing useful.
-z4h source $Z4H/ohmyzsh/ohmyzsh/lib/diagnostics.zsh
-z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/emoji-clock/emoji-clock.plugin.zsh
+z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/dotenv/dotenv.plugin.zsh
+z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/direnv/direnv.plugin.zsh
+z4h source $Z4H/esc/conda-zsh-completion/conda-zsh-completion.plugin.zsh
 # z4h source $Z4H/zsh-pyenv/zsh-pyenv.plugin.zsh
 
 # Define key bindings.
@@ -79,12 +81,6 @@ function ssh() { z4h ssh "$@" }
 
 # Define named directories: ~w <=> Windows home directory on WSL.
 [[ -n $z4h_win_home ]] && hash -d w=$z4h_win_home
-
-# Define aliases.
-alias tree='tree -a -I .git'
-
-# Add flags to existing aliases.
-alias ls="${aliases[ls]:-ls} -A"
 
 # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
 setopt glob_dots     # no special treatment for file names with a leading dot
@@ -123,6 +119,9 @@ fi
 [ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -f ~/.direnvrc ] && eval "$(direnv hook zsh)"
+
 
 alias git="noglob /usr/bin/git"
 export EDITOR=vim

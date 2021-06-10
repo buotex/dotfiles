@@ -73,7 +73,7 @@ Plug 'davidhalter/jedi-vim'
 " Plug 'derekwyatt/vim-scala'
 Plug 'JuliaEditorSupport/julia-vim'
 " Plug 'neomake/neomake'
-Plug 'mattboehm/vim-unstack'
+"Plug 'mattboehm/vim-unstack'
 
 " other
 Plug 'vim-test/vim-test'
@@ -189,8 +189,7 @@ endfunction
 noremap <F4> :TREPLSendFile<CR>
 tnoremap <C-w> <C-\><C-n><C-w>
 autocmd FileType python noremap <buffer> <F5> <ESC>:w<CR>:T python % <CR>
-"autocmd FileType python setlocal makeprg=python\ %
-autocmd FileType python compiler python
+autocmd FileType python setlocal makeprg=pre-commit\ run\ --all
 autocmd FileType julia noremap <buffer> <F5> <ESC>:w<CR>:T julia % <CR>
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
@@ -281,7 +280,6 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/**'"
 
 " ======================== Commands ============================= "{{{
 
-autocmd FileType python :set makeprg=pre-commit\ run \--all
 
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
