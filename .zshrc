@@ -20,10 +20,7 @@ zstyle ':z4h:cd-down'         fzf-bindings     'tab:down'
 # Right-arrow key accepts one character ('partial-accept') from
 # command autosuggestions or the whole thing ('accept')?
 zstyle ':z4h:autosuggestions' forward-char     'accept'
-
-# Disable automatic teleportation of z4h over ssh when connecting to some-host.
-# This makes `ssh some-host` equivalent to `command ssh some-host`.
-zstyle ':z4h:ssh:*'   passthrough      'no'
+zstyle ':z4h:ssh:*'                   enable 'no'
 
 # Move the cursor to the end when Up/Down fetches a command from history?
 zstyle ':zle:up-line-or-beginning-search'   leave-cursor 'yes'
@@ -47,8 +44,6 @@ z4h init || return
 # Export environment variables.
 export GPG_TTY=$TTY
 
-# Extend PATH.
-path=(~/bin $path)
 
 # Use additional Git repositories pulled in with `z4h install`.
 #
@@ -105,7 +100,7 @@ fi
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 if [[ -d $PYENV_ROOT ]]; then
-  export PATH="$Z4H/pyenv/pyenv/bin:$PATH"
+  export PATH=":$Z4H/pyenv/pyenv/bin:$PATH"
   mkdir -p $PYENV_ROOT/plugins
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-virtualenv ]]; then; ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv; fi
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-which-ext ]]; then; ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins/pyenv-which-ext; fi
@@ -123,5 +118,7 @@ fi
 [ -f ~/.direnvrc ] && eval "$(direnv hook zsh)"
 
 
+# Extend PATH.
+path=(~/bin ~/.local/bin $path)
 alias git="noglob /usr/bin/git"
 export EDITOR=vim
