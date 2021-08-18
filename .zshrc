@@ -71,9 +71,6 @@ autoload -Uz zmv
 function md() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
 compdef _directories md
 
-# Replace `ssh` with `z4h ssh` to automatically teleport z4h to remote hosts.
-function ssh() { z4h ssh "$@" }
-
 # Define named directories: ~w <=> Windows home directory on WSL.
 [[ -n $z4h_win_home ]] && hash -d w=$z4h_win_home
 
@@ -100,7 +97,7 @@ fi
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 if [[ -d $PYENV_ROOT ]]; then
-  export PATH=":$Z4H/pyenv/pyenv/bin:$PATH"
+  export PATH="$PYENV_ROOT/bin:$PATH"
   mkdir -p $PYENV_ROOT/plugins
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-virtualenv ]]; then; ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv; fi
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-which-ext ]]; then; ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins/pyenv-which-ext; fi
