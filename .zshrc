@@ -32,6 +32,7 @@ z4h install ohmyzsh/ohmyzsh || return
 z4h install pyenv/pyenv || return
 z4h install pyenv/pyenv-virtualenv || return
 z4h install pyenv/pyenv-which-ext || return
+z4h install pyenv/pyenv-update || return
 z4h install nvm-sh/nvm || return
 z4h install esc/conda-zsh-completion || return
 
@@ -97,10 +98,11 @@ fi
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 if [[ -d $PYENV_ROOT ]]; then
-  export PATH="$PYENV_ROOT/bin:$PATH"
+  export PATH="$Z4H/pyenv/pyenv/bin:$PYENV_ROOT/shims/:$PATH"
   mkdir -p $PYENV_ROOT/plugins
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-virtualenv ]]; then; ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv; fi
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-which-ext ]]; then; ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins/pyenv-which-ext; fi
+  if [[ ! -d $PYENV_ROOT/plugins/pyenv-update ]]; then; ln -sf $Z4H/pyenv/pyenv-update $PYENV_ROOT/plugins/pyenv-update; fi
   eval "$(pyenv init - --no-rehash zsh)"
   eval "$(pyenv virtualenv-init - zsh)"
   z4h source $Z4H/pyenv/pyenv/completions/pyenv.zsh
