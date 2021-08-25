@@ -27,6 +27,10 @@ zstyle ':z4h:ssh:*'                   enable 'no'
 zstyle ':zle:up-line-or-beginning-search'   leave-cursor 'yes'
 zstyle ':zle:down-line-or-beginning-search' leave-cursor 'yes'
 
+zstyle ':z4h:' start-tmux 'no'
+zstyle ':z4h:fzf-complete' recurse-dirs 'no'
+
+
 # Clone additional Git repositories from GitHub.
 #
 z4h install ohmyzsh/ohmyzsh || return
