@@ -3,6 +3,7 @@
 # variables such as PATH) in this file or in files source by it.
 #
 # Documentation: https://github.com/romkatv/zsh4humans/blob/v4/README.md.
+[ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
 
 # Periodic auto-update on Zsh startup: 'ask' or 'no'.
 zstyle ':z4h:'                auto-update      'ask'
@@ -96,7 +97,10 @@ if (( $+commands[direnv] )); then
 fi
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
+if [[ ! -d $PYENV_ROOT ]] ;
+then
+    export PYENV_ROOT="$HOME/.pyenv"
+fi
 if [[ -d $PYENV_ROOT ]]; then
   export PATH="$Z4H/pyenv/pyenv/bin:$PYENV_ROOT/shims/:$PATH"
   mkdir -p $PYENV_ROOT/plugins
@@ -110,7 +114,6 @@ fi
 
 [ -f $Z4H/fzf/fzf.zsh ] && source $Z4H/fzf/fzf.zsh
 
-[ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
