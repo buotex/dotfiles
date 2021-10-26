@@ -104,7 +104,7 @@ set termguicolors                                       " Opaque Background
 set mouse=a                                             " enable mouse scrolling
 set clipboard+=unnamedplus                              " use system clipboard by default
 filetype plugin indent on                               " enable indentations
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent            " tab key actions
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab smarttab autoindent            " tab key actions
 set incsearch ignorecase smartcase hlsearch             " highlight text while searching
 set list listchars=trail:»,tab:»-                       " use tab to navigate in list mode
 " set wrap breakindent                                    " wrap long lines to the width set by tw

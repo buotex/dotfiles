@@ -104,6 +104,10 @@ fi
 if [[ ! -d $PYENV_ROOT ]] ;
 then
     export PYENV_ROOT="$HOME/.pyenv"
+    if [[ ! -d $PYENV_ROOT ]] ;
+    then
+        cp -r $Z4H/pyenv/pyenv $HOME/.pyenv
+    fi
 fi
 if [[ -d $PYENV_ROOT ]]; then
   export PATH="$Z4H/pyenv/pyenv/bin:$PYENV_ROOT/shims/:$PATH"
@@ -127,4 +131,5 @@ fi
 # Extend PATH.
 path=(~/bin ~/.local/bin $path)
 alias git="noglob /usr/bin/git"
+alias ll="ls -la"
 export EDITOR=vim

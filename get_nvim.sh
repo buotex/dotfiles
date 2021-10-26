@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir -p ~/bin
-wget https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage -O ~/bin/nvim.appimage
+wget https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage -O ~/bin/nvim.appimage
 chmod 755 ~/bin/nvim.appimage
 cd ~/bin
 ./nvim.appimage --appimage-extract 
