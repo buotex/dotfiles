@@ -74,6 +74,8 @@ Plug 'davidhalter/jedi-vim'
 Plug 'JuliaEditorSupport/julia-vim'
 " Plug 'neomake/neomake'
 "Plug 'mattboehm/vim-unstack'
+Plug 'skanehira/preview-markdown.vim'
+Plug 'dhruvasagar/vim-table-mode'
 
 " other
 Plug 'vim-test/vim-test'
@@ -191,6 +193,7 @@ tnoremap <C-w> <C-\><C-n><C-w>
 autocmd FileType python noremap <buffer> <F5> <ESC>:w<CR>:T python % <CR>
 autocmd FileType python setlocal makeprg=pre-commit\ run\ --all
 autocmd FileType julia noremap <buffer> <F5> <ESC>:w<CR>:T julia % <CR>
+autocmd FileType markdown setlocal tabstop=4 softtabstop=4 shiftwidth=4
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
 
@@ -275,6 +278,8 @@ let g:fzf_tags_command = 'ctags -R'
 
 let $FZF_DEFAULT_OPTS = '--layout=reverse --inline-info'
 let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/**'"
+
+let g:preview_markdown_auto_update = 1
 
 "}}}
 

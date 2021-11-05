@@ -110,7 +110,7 @@ then
     fi
 fi
 if [[ -d $PYENV_ROOT ]]; then
-  export PATH="$Z4H/pyenv/pyenv/bin:$PYENV_ROOT/shims/:$PATH"
+  export PATH="$PATH:$Z4H/pyenv/pyenv/bin:$PYENV_ROOT/shims/"
   mkdir -p $PYENV_ROOT/plugins
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-virtualenv ]]; then; ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv; fi
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-which-ext ]]; then; ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins/pyenv-which-ext; fi
@@ -129,7 +129,7 @@ fi
 
 
 # Extend PATH.
-path=(~/bin ~/.local/bin $path)
+path=($path ~/bin ~/.local/bin )
 alias git="noglob /usr/bin/git"
 alias ll="ls -la"
 export EDITOR=vim
