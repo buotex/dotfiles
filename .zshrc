@@ -110,7 +110,8 @@ then
     fi
 fi
 if [[ -d $PYENV_ROOT ]]; then
-  export PATH="$PATH:$Z4H/pyenv/pyenv/bin:$PYENV_ROOT/shims/"
+  export PATH="$PATH:$Z4H/pyenv/pyenv/bin"
+  eval "$(pyenv init --path)"
   mkdir -p $PYENV_ROOT/plugins
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-virtualenv ]]; then; ln -sf $Z4H/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv; fi
   if [[ ! -d $PYENV_ROOT/plugins/pyenv-which-ext ]]; then; ln -sf $Z4H/pyenv/pyenv-which-ext $PYENV_ROOT/plugins/pyenv-which-ext; fi
