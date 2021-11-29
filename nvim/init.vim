@@ -162,6 +162,7 @@ let loaded_netrw = 0                                    " diable netew
 let g:omni_sql_no_default_maps = 1                      " disable sql omni completion
 
 " Airline
+let g:airline_statusline_ontop=1
 let g:airline_powerline_fonts = 1
 let g:airline#themes#clean#palette = 1
 call airline#parts#define_raw('linenr', '%l')
@@ -207,6 +208,7 @@ let g:indentLine_fileTypeExclude = ['startify']
 
 " jedi
 let g:jedi#completions_enabled = 0
+let g:jedi#use_splits_not_buffers = "right"
 let g:jedi#environment_path = expand("$HOME/.pyenv/versions/neovim/bin/python3.9")
 let g:jedi#goto_assignments_command = "<leader>ja"
 let g:jedi#goto_command = "<leader>n"
