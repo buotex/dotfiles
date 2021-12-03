@@ -75,4 +75,4 @@ if [[ $COLORTERM != (24bit|truecolor) && ${terminfo[colors]} -ne 16777216 ]]; th
 fi
 [[ ! -f ~/.dotfiles/.p10k.zsh ]] || source ~/.dotfiles/.p10k.zsh
 source $HOME/.dotfiles/aliases
-bindkey -e
+set -o emacs
