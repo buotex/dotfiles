@@ -12,7 +12,7 @@ if g:os == "Windows"
     let g:python3_host_prog=expand('~/miniconda3/envs/neovim/python.exe')
 elseif g:os == "Linux"
     let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
-    let g:python3_host_prog = expand('~/.pyenv/versions/neovim/bin/python3')
+    let g:python3_host_prog = expand('~/.config/local/share/sheldon/repos/github.com/pyenv/pyenv/versions/neovim/bin/python3')
 endif
 
 let g:vim_bootstrap_langs = "c,erlang,go"
@@ -178,6 +178,7 @@ let g:airline#extensions#tabline#buffer_min_count = 2   " show tabline only if t
 let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on tabs
 
 let test#strategy = "neoterm"
+let g:test#python#pytest#options='-s'
 let g:neoterm_direct_open_repl = 0
 let g:neoterm_autoinsert = 1
 "let g:neoterm_autojump = 1
@@ -212,7 +213,7 @@ let g:indentLine_fileTypeExclude = ['startify']
 " jedi
 let g:jedi#completions_enabled = 0
 let g:jedi#use_splits_not_buffers = "right"
-let g:jedi#environment_path = expand("$HOME/.pyenv/versions/neovim/bin/python3.9")
+"let g:jedi#environment_path = expand('~/.config/local/share/sheldon/repos/github.com/pyenv/pyenv/versions/neovim/bin/python3')
 let g:jedi#goto_assignments_command = "<leader>ja"
 let g:jedi#goto_command = "<leader>n"
 let g:jedi#goto_stubs_command = "<leader>js"

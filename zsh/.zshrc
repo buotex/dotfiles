@@ -23,20 +23,6 @@ eval "$(sheldon source)"
 
 setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
 
-
-# Clone additional Git repositories from GitHub.
-#
-#z4h install ohmyzsh/ohmyzsh || return
-#z4h install pyenv/pyenv || return
-#z4h install pyenv/pyenv-virtualenv || return
-#z4h install pyenv/pyenv-which-ext || return
-#z4h install pyenv/pyenv-update || return
-#z4h install nvm-sh/nvm || return
-#z4h install esc/conda-zsh-completion || return
-
-
-
-
 # Use additional Git repositories pulled in with `z4h install`.
 
 # Autoload functions.
@@ -84,5 +70,9 @@ fi
 path=($path ~/bin ~/.local/bin )
 
 # To customize prompt, run `p10k configure` or edit ~/.dotfiles/.p10k.zsh.
+if [[ $COLORTERM != (24bit|truecolor) && ${terminfo[colors]} -ne 16777216 ]]; then
+    zmodload zsh/nearcolor
+fi
 [[ ! -f ~/.dotfiles/.p10k.zsh ]] || source ~/.dotfiles/.p10k.zsh
 source $HOME/.dotfiles/aliases
+bindkey -e
