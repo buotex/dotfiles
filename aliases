@@ -1,0 +1,2 @@
+alias git="noglob /usr/bin/git"
+alias ll="ls -la"
