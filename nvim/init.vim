@@ -78,6 +78,7 @@ Plug 'skanehira/preview-markdown.vim'
 Plug 'dhruvasagar/vim-table-mode'
 
 " other
+Plug 'dyng/ctrlsf.vim'
 Plug 'vim-test/vim-test'
 Plug 'mhinz/vim-startify'                               " cool start up screen
 Plug 'airblade/vim-gitgutter'                               " git support
@@ -96,6 +97,8 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/fern.vim'
 Plug 'kassio/neoterm'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+
 
 call plug#end()
 
@@ -314,8 +317,6 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-" python renaming
-autocmd FileType python nnoremap <leader>rn :Semshi rename <CR>
 
 
 " files in fzf
@@ -452,6 +453,8 @@ nmap <leader>gb :Gblame<CR>
 nmap <leader>tn :TestNearest<CR>
 nmap <leader>tf :TestFile<CR>
 nmap <leader>tl :TestLast<CR>
+
+nmap <leader>p <Plug>CtrlSFPrompt
 
 " ALE settings
 let g:ale_lint_on_text_changed = 0
