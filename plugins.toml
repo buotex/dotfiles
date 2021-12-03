@@ -49,12 +49,3 @@ use = ["nvm.sh"]
 [plugins.zsh-completion]
 github = 'zsh-users/zsh-completions'
 apply = []
-
-[plugins.fzf]
-github = 'junegunn/fzf'
-apply = []
-
-# For example:
-#
-# [plugins.base16]
-# github = "chriskempson/base16-shell"
