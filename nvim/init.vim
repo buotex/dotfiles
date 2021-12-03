@@ -56,7 +56,7 @@ Plug 'ncm2/ncm2-path'
 Plug 'roxma/nvim-yarp'
 
 " fuzzy stuff
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'urbainvaes/fzf-marks', { 'dir': '$HOME/.fzf-marks', 'do': 'echo source $HOME/.fzf-marks/fzf-marks.plugin.bash >> ~/.bashrc' }
 

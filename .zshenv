@@ -21,4 +21,6 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 . "$HOME/.cargo/env"
 export PYENV_ROOT="$SHELDON_REPOS/pyenv/pyenv"
+export NVM_DIR="$SHELDON_REPOS/nvm-sh/nvm"
 export PATH="$PYENV_ROOT/bin:$PATH"
+$SHELDON_REPOS/junegunn/fzf/install --all --no-fish --no-bash

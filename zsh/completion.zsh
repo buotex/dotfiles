@@ -10,7 +10,7 @@
 # +---------+
 
 # Load more completions
-fpath=($DOTFILES/zsh/plugins/zsh-completions/src $fpath)
+fpath=($SHELDON_REPOS/zsh-users/zsh-completions/src $fpath)
 
 # Should be called before compinit
 zmodload zsh/complist
@@ -28,7 +28,8 @@ bindkey -M menuselect '^xh' accept-and-hold                # Hold
 bindkey -M menuselect '^xn' accept-and-infer-next-history  # Next
 bindkey -M menuselect '^xu' undo                           # Undo
 
-autoload -U compinit; compinit
+autoload -U compinit && compinit
+autoload -U bashcompinit && bashcompinit
 _comp_options+=(globdots) # With hidden files
 
 # Only work with the Zsh function vman
@@ -99,6 +100,3 @@ zstyle ':completion:*' keep-prefix true
 
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-## For kubernetes
-source $DOTFILES/zsh/plugins/kubectl-completion/_kubectl
-zstyle ':completion:*:*:kubectl:*' list-grouped false

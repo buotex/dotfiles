@@ -54,10 +54,7 @@ setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history
 
 # Autoload functions.
 autoload -Uz zmv
-autoload -U compinit &&  compinit
-autoload -U bashcompinit && bashcompinit
-_comp_options+=(globdots)
-
+source $ZDOTDIR/completion.zsh
 
 # Define functions and completions.
 function md() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
@@ -78,8 +75,6 @@ setopt no_auto_menu  # require an extra TAB press to open the completion menu
 #fi
 
 #nvm
-export NVM_DIR="$Z4H/nvm-sh/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Enable direnv hooks if direnv is installed.
 if (( $+commands[direnv] )); then

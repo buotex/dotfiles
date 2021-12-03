@@ -46,6 +46,13 @@ apply = []
 github = 'nvm-sh/nvm'
 use = ["nvm.sh"]
 
+[plugins.zsh-completion]
+github = 'zsh-users/zsh-completions'
+apply = []
+
+[plugins.fzf]
+github = 'junegunn/fzf'
+apply = []
 
 # For example:
 #
