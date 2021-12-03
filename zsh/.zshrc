@@ -1,3 +1,4 @@
+set -o emacs
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -61,7 +62,6 @@ if [[ -d $PYENV_ROOT ]]; then
 fi
 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -f ~/.direnvrc ] && eval "$(direnv hook zsh)"
 
@@ -75,4 +75,4 @@ if [[ $COLORTERM != (24bit|truecolor) && ${terminfo[colors]} -ne 16777216 ]]; th
 fi
 [[ ! -f ~/.dotfiles/.p10k.zsh ]] || source ~/.dotfiles/.p10k.zsh
 source $HOME/.dotfiles/aliases
-set -o emacs
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

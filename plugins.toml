@@ -49,3 +49,11 @@ use = ["nvm.sh"]
 [plugins.zsh-completion]
 github = 'zsh-users/zsh-completions'
 apply = []
+
+[plugins.zsh-syntax-highlighting]
+github = 'zsh-users/zsh-syntax-highlighting'
+use = ["zsh-syntax-highlighting.zsh"]
+
+[plugins.zsh-autosuggestions]
+github = 'zsh-users/zsh-autosuggestions'
+use = ["zsh-autosuggestions.zsh"]

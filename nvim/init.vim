@@ -76,6 +76,8 @@ Plug 'JuliaEditorSupport/julia-vim'
 "Plug 'mattboehm/vim-unstack'
 Plug 'skanehira/preview-markdown.vim'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'rust-lang/rust.vim'
+
 
 " other
 Plug 'dyng/ctrlsf.vim'
@@ -201,6 +203,7 @@ autocmd FileType julia noremap <buffer> <F5> <ESC>:w<CR>:T julia % <CR>
 autocmd FileType markdown setlocal tabstop=4 softtabstop=4 shiftwidth=4
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
+let g:rustfmt_autosave = 1
 
 
 
