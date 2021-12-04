@@ -1,9 +1,10 @@
+skip_global_compinit=1
 export DOTFILES=$HOME/.dotfiles
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME="$XDG_CONFIG_HOME/local/share"
 export XDG_CACHE_HOME="$XDG_CONFIG_HOME/cache"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export SHELDON_REPOS=$XDG_DATA_HOME/sheldon/repos/github.com
+export PLUGIN_REPOS=$XDG_DATA_HOME/znap
 
 export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 export HISTSIZE=10000                   # Maximum events for internal history
@@ -19,7 +20,4 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
-export PYENV_ROOT="$SHELDON_REPOS/pyenv/pyenv"
-export NVM_DIR="$SHELDON_REPOS/nvm-sh/nvm"
-export PATH="$PYENV_ROOT/bin:$PATH"
 export COLORTERM=truecolor

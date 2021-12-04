@@ -12,7 +12,7 @@ if g:os == "Windows"
     let g:python3_host_prog=expand('~/miniconda3/envs/neovim/python.exe')
 elseif g:os == "Linux"
     let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
-    let g:python3_host_prog = expand('~/.config/local/share/sheldon/repos/github.com/pyenv/pyenv/versions/neovim/bin/python3')
+    let g:python3_host_prog = expand('~/bin/.direnv/python-3.9.9/bin/python3')
 endif
 
 let g:vim_bootstrap_langs = "c,erlang,go"
@@ -132,7 +132,6 @@ let g:indentLine_setConceal = 0                         " actually fix the annoy
 set history=1000                                        " history limit
 set backspace=indent,eol,start                          " sensible backspacing
 set undofile                                            " enable persistent undo
-set undodir=/tmp                                        " undo temp file directory
 set foldlevel=0                                         " open all folds by default
 set inccommand=nosplit                                  " visual feedback while substituting
 " allow external rc files
@@ -149,7 +148,7 @@ set nocursorcolumn
 set scrolljump=5
 "set redrawtime=1000
 set synmaxcol=180
-set re=1
+set regexpengine=1
 
 
 " visuals
@@ -179,7 +178,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_min_count = 2   " show tabline only if there is more than 1 buffer
 let g:airline#extensions#tabline#fnamemod = ':t'        " show only file name on tabs
 
-let test#strategy = "neoterm"
+let test#strategy = 'neoterm'
 let g:test#python#pytest#options='-s'
 let g:neoterm_direct_open_repl = 0
 let g:neoterm_autoinsert = 1
@@ -476,11 +475,11 @@ let g:ale_fixers = {
       \    'vue': ['prettier']
       \}
 nmap <F10> :ALEFix<CR>
-let g:ale_python_pyflakes_executable = expand("$HOME/.pyenv/versions/neovim/bin/pyflakes")
+let g:ale_python_pyflakes_executable = expand("$HOME/bin/.direnv/python-3.9.9/bin/pyflakes")
 let g:ale_python_pyflakes_use_global = 1
-let g:ale_python_black_executable = expand("$HOME/.pyenv/versions/neovim/bin/black")
+let g:ale_python_black_executable = expand("$HOME/bin/.direnv/python-3.9.9/bin/black")
 let g:ale_python_black_use_global = 1
-let g:ale_python_flake8_executable = expand("$HOME/.pyenv/versions/neovim/bin/flake8")
+let g:ale_python_flake8_executable = expand("$HOME/bin/.direnv/python-3.9.9/bin/flake8")
 let g:ale_python_flake8_use_global = 1
 
 let g:ale_fix_on_save = 1

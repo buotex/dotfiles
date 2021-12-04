@@ -1,3 +1,5 @@
+zstyle ':znap:*' repos-dir $HOME/.config/local/share/znap
+source $HOME/.config/zsh-snap/znap.zsh
 set -o emacs
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -15,11 +17,20 @@ export GPG_TTY=$TTY
 #
 # Documentation: https://github.com/romkatv/zsh4humans/blob/v4/README.md.
 [ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
-if  [[ ! -d $XDG_CONFIG_HOME/sheldon ]]; then 
-  mkdir -p $XDG_CONFIG_HOME/sheldon
-  ln -sf $DOTFILES/plugins.toml $XDG_CONFIG_HOME/sheldon
-fi
-eval "$(sheldon source)"
+#znap source marlonrichert/zsh-autocomplete
+znap source romkatv/powerlevel10k
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-completions
+znap source zsh-users/zsh-syntax-highlighting
+znap clone asdf-vm/asdf
+
+export ASDF_DIR=${PLUGIN_REPOS}/asdf
+fpath=(${ASDF_DIR}/completion $fpath)
+path=($path ${ASDF_DIR}/bin)
+eval "$(asdf exec direnv hook zsh)"
+direnv() { asdf exec direnv "$@"; }
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(zoxide init zsh)"
 
 
 setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
@@ -29,41 +40,19 @@ setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history
 # Autoload functions.
 autoload -Uz zmv
 source $ZDOTDIR/completion.zsh
-bindkey -M menuselect '^[[Z' reverse-menu-complete
 
 # Define named directories: ~w <=> Windows home directory on WSL.
 #[[ -n $z4h_win_home ]] && hash -d w=$z4h_win_home
 
 # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
-setopt glob_dots     # no special treatment for file names with a leading dot
-setopt no_auto_menu  # require an extra TAB press to open the completion menu
-
-# fnm
-#z4h install Schniz/fnm || return
-#export PATH=$HOME/.fnm:$PATH
-#if (( $+commands[fnm] )); then
-#    eval "`fnm env --multi`"
-#fi
-
-#nvm
-
-# Enable direnv hooks if direnv is installed.
-if (( $+commands[direnv] )); then
-  eval "$(direnv hook zsh)"
-fi
-
-if [[ -d $PYENV_ROOT ]]; then
-   if [[ ! -d $PYENV_ROOT/plugins/pyenv-virtualenv ]]; then; ln -sf $SHELDON_REPOS/pyenv/pyenv-virtualenv $PYENV_ROOT/plugins/pyenv-virtualenv; fi
-   if [[ ! -d $PYENV_ROOT/plugins/pyenv-which-ext ]]; then; ln -sf $SHELDON_REPOS/pyenv/pyenv-which-ext $PYENV_ROOT/plugins/pyenv-which-ext; fi
-   if [[ ! -d $PYENV_ROOT/plugins/pyenv-update ]]; then; ln -sf $SHELDON_REPOS/pyenv/pyenv-update $PYENV_ROOT/plugins/pyenv-update; fi
-   eval "$(pyenv init --path)"
-   eval "$(pyenv init - --no-rehash zsh)"
-   eval "$(pyenv virtualenv-init - zsh)"
-fi
+#setopt glob_dots     # no special treatment for file names with a leading dot
+#setopt no_auto_menu  # require an extra TAB press to open the completion menu
 
 
-
-[ -f ~/.direnvrc ] && eval "$(direnv hook zsh)"
+#[ -f ~/.direnvrc ] && eval "$(direnv hook zsh)"
+export FZF_DEFAULT_COMMAND="fd . $HOME"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 
 
 # Extend PATH.
@@ -75,4 +64,3 @@ if [[ $COLORTERM != (24bit|truecolor) && ${terminfo[colors]} -ne 16777216 ]]; th
 fi
 [[ ! -f ~/.dotfiles/.p10k.zsh ]] || source ~/.dotfiles/.p10k.zsh
 source $HOME/.dotfiles/aliases
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
