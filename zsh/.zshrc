@@ -30,7 +30,9 @@ path=($path ${ASDF_DIR}/bin)
 eval "$(asdf exec direnv hook zsh)"
 direnv() { asdf exec direnv "$@"; }
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(zoxide init zsh)"
+if (( $+commands[zoxide] )) then
+    eval "$(zoxide init zsh)"
+fi
 
 
 setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.

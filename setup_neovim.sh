@@ -1,5 +1,8 @@
-pyenv virtualenv 3.9.7 neovim
-pyenv activate neovim
+# mkdir -p ~/.config/direnv
+# ln -sf ~/.dotfiles/direnvrc ~/.config/direnv
+# echo "use asdf\nlayout python" > ~/bin/.envrc
+# cd ~/bin/.envrc
+# direnv allow
 pip install neovim
 pip install black
 pip install flake8
