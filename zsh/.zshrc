@@ -1,5 +1,7 @@
-zstyle ':znap:*' repos-dir $HOME/.config/local/share/znap
-source $HOME/.config/zsh-snap/znap.zsh
+[ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
+source $ZDOTDIR/completion.zsh
+zstyle ':znap:*' repos-dir $PLUGIN_REPOS
+source ~/.config/zsh-snap/znap.zsh
 set -o emacs
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -16,7 +18,6 @@ export GPG_TTY=$TTY
 # variables such as PATH) in this file or in files source by it.
 #
 # Documentation: https://github.com/romkatv/zsh4humans/blob/v4/README.md.
-[ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
 #znap source marlonrichert/zsh-autocomplete
 znap source romkatv/powerlevel10k
 znap source zsh-users/zsh-autosuggestions
@@ -27,7 +28,9 @@ znap clone asdf-vm/asdf
 export ASDF_DIR=${PLUGIN_REPOS}/asdf
 fpath=(${ASDF_DIR}/completion $fpath)
 path=($path ${ASDF_DIR}/bin)
+if (( $+commands[asdf] )) then
 eval "$(asdf exec direnv hook zsh)"
+fi 
 direnv() { asdf exec direnv "$@"; }
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if (( $+commands[zoxide] )) then
@@ -41,7 +44,6 @@ setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history
 
 # Autoload functions.
 autoload -Uz zmv
-source $ZDOTDIR/completion.zsh
 
 # Define named directories: ~w <=> Windows home directory on WSL.
 #[[ -n $z4h_win_home ]] && hash -d w=$z4h_win_home
