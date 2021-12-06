@@ -35,7 +35,7 @@ znap eval zoxide-init 'zoxide init zsh'
 
 # Autoload functions.
 
-znap eval ls_colors 'export LS_COLORS=$(vivid generate snazzy)'
+export LS_COLORS=$(vivid generate snazzy)
 autoload -Uz zmv
 source $ZDOTDIR/completion2.zsh
 
