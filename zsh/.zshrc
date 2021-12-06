@@ -28,28 +28,19 @@ znap clone asdf-vm/asdf
 export ASDF_DIR=${PLUGIN_REPOS}/asdf
 fpath=(${ASDF_DIR}/completion $fpath)
 path=($path ${ASDF_DIR}/bin)
-if (( $+commands[asdf] )) then
-eval "$(asdf exec direnv hook zsh)"
-fi 
+znap eval direnv-init "$(asdf exec direnv hook zsh)"
 direnv() { asdf exec direnv "$@"; }
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if (( $+commands[zoxide] )) then
-    eval "$(zoxide init zsh)"
-fi
+znap eval zoxide-init "$(zoxide init zsh)"
 
-
-setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
-
-# Use additional Git repositories pulled in with `z4h install`.
 
 # Autoload functions.
+
+znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
 autoload -Uz zmv
 
-# Define named directories: ~w <=> Windows home directory on WSL.
-#[[ -n $z4h_win_home ]] && hash -d w=$z4h_win_home
-
 # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
-#setopt glob_dots     # no special treatment for file names with a leading dot
+setopt glob_dots     # no special treatment for file names with a leading dot
 #setopt no_auto_menu  # require an extra TAB press to open the completion menu
 
 
