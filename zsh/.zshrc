@@ -1,8 +1,7 @@
+set -o emacs
 [ -f ~/.$(hostname).zsh ] && source ~/.$(hostname).zsh
-source $ZDOTDIR/completion.zsh
 zstyle ':znap:*' repos-dir $PLUGIN_REPOS
 source ~/.config/zsh-snap/znap.zsh
-set -o emacs
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -36,8 +35,9 @@ znap eval zoxide-init 'zoxide init zsh'
 
 # Autoload functions.
 
-znap eval trapd00r/LS_COLORS 'dircolors -b LS_COLORS'
+znap eval ls_colors 'export LS_COLORS=$(vivid generate snazzy)'
 autoload -Uz zmv
+source $ZDOTDIR/completion2.zsh
 
 # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
 setopt glob_dots     # no special treatment for file names with a leading dot
@@ -45,9 +45,10 @@ setopt glob_dots     # no special treatment for file names with a leading dot
 
 
 #[ -f ~/.direnvrc ] && eval "$(direnv hook zsh)"
-export FZF_DEFAULT_COMMAND="fd . $HOME"
+export FZF_ALT_C_COMMAND="fd -t d . $HOME --color=always"
+export FZF_DEFAULT_COMMAND="fd --color=always"
+export FZF_DEFAULT_OPTS="--ansi"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd -t d . $HOME"
 
 
 # Extend PATH.
@@ -58,4 +59,7 @@ if [[ $COLORTERM != (24bit|truecolor) && ${terminfo[colors]} -ne 16777216 ]]; th
     zmodload zsh/nearcolor
 fi
 [[ ! -f ~/.dotfiles/.p10k.zsh ]] || source ~/.dotfiles/.p10k.zsh
+bindkey -M menuselect '^M' .accept-line
+bindkey -M menuselect '^[[Z' reverse-menu-complete
+bindkey "^[[3~" delete-char
 source $HOME/.dotfiles/aliases

@@ -38,8 +38,6 @@ setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
 setopt AUTO_MENU
 setopt AUTO_PARAM_SLASH
 setopt LIST_ROWS_FIRST
-bindkey -M menuselect '^M' .accept-line
-bindkey -M menuselect '^[[Z' reverse-menu-complete
 
 # +---------+
 # | zstyles |

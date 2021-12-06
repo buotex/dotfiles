@@ -1,3 +1,4 @@
+source "$(asdf direnv hook asdf)"
 layout_anaconda() {
   local ACTIVATE="${HOME}/miniconda3/bin/activate"
 
