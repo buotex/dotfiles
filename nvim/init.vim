@@ -107,6 +107,7 @@ call plug#end()
 "}}}
 
 
+set autoread
 set termguicolors                                       " Opaque Background
 set mouse=a                                             " enable mouse scrolling
 set clipboard+=unnamedplus                              " use system clipboard by default
@@ -202,6 +203,7 @@ autocmd FileType julia noremap <buffer> <F5> <ESC>:w<CR>:T julia % <CR>
 autocmd FileType markdown setlocal tabstop=4 softtabstop=4 shiftwidth=4
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
+autocmd BufEnter * syntax sync fromstart
 let g:rustfmt_autosave = 1
 
 
@@ -214,20 +216,20 @@ let g:indentLine_fileTypeExclude = ['startify']
 
 " jedi
 let g:jedi#completions_enabled = 0
-let g:jedi#use_splits_not_buffers = "right"
+let g:jedi#use_splits_not_buffers = 'right'
 "let g:jedi#environment_path = expand('~/.config/local/share/sheldon/repos/github.com/pyenv/pyenv/versions/neovim/bin/python3')
-let g:jedi#goto_assignments_command = "<leader>ja"
-let g:jedi#goto_command = "<leader>n"
-let g:jedi#goto_stubs_command = "<leader>js"
-let g:jedi#rename_command = "<leader>jr"
-let g:jedi#usages_command= "<leader>ju"
-let g:jedi#documentation_command = "<leader>jd"
+let g:jedi#goto_assignments_command = '<leader>ja'
+let g:jedi#goto_command = '<leader>n'
+let g:jedi#goto_stubs_command = '<leader>js'
+let g:jedi#rename_command = '<leader>jr'
+let g:jedi#usages_command= '<leader>ju'
+let g:jedi#documentation_command = '<leader>jd'
 
 " doge
-let g:doge_doc_standard_python="google"
+let g:doge_doc_standard_python='google'
 
 
-"" startify
+" startify
 let g:startify_padding_left = 10
 let g:startify_session_persistence = 1
 let g:startify_enable_special = 0
