@@ -27,10 +27,10 @@ znap clone asdf-vm/asdf
 export ASDF_DIR=${PLUGIN_REPOS}/asdf
 fpath=(${ASDF_DIR}/completion $fpath)
 path=($path ${ASDF_DIR}/bin)
-znap eval direnv-init 'asdf exec direnv hook zsh'
+eval "$(asdf exec direnv hook zsh)"
 direnv() { asdf exec direnv "$@"; }
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-znap eval zoxide-init 'zoxide init zsh'
+eval "$(zoxide init zsh)"
 
 
 # Autoload functions.
