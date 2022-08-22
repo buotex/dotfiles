@@ -1,0 +1,34 @@
+#theme = "Bogster"
+theme = "monokai_pro_spectrum"
+[editor]
+auto-pairs = false
+
+[keys.normal]
+l = "insert_mode"
+L = "prepend_to_line"
+
+h = "move_char_left"
+i = "move_char_right"
+n = "move_line_down"
+e = "move_line_up"
+
+k = "search_next"
+K = "search_prev"
+
+j = "move_next_word_end"
+J = "move_next_long_word_end"
+
+C-w = { h = "jump_view_left", i = "jump_view_right", n = "jump_view_down", e = "jump_view_up"}
+
+[keys.select]
+h = "extend_char_left"
+i = "extend_char_right"
+n = "extend_line_down"
+e = "extend_line_up"
+k = "extend_search_next"
+K = "extend_search_prev"
+
+j = "extend_next_word_end"
+J = "extend_next_long_word_end"
+
+
