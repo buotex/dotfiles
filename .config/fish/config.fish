@@ -1,6 +1,7 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    set -Ux EDITOR hx
+    fish_add_path "$HOME/.local/bin"
+    set -Ux EDITOR lvim
 if set -q KITTY_INSTALLATION_DIR
     set --global KITTY_SHELL_INTEGRATION enabled
     source "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_conf.d/kitty-shell-integration.fish"
