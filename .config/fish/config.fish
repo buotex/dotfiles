@@ -1,6 +1,9 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
     fish_add_path "$HOME/.local/bin"
+    fish_add_path "$HOME/zls"
+    fish_add_path "$HOME/cargo/bin"
+    nvm use lts
     set -Ux EDITOR lvim
 if set -q KITTY_INSTALLATION_DIR
     set --global KITTY_SHELL_INTEGRATION enabled
@@ -14,7 +17,7 @@ end
     alias juliaclient='julia --startup-file=no -e "using DaemonMode; runargs()"'
     alias kssh='kitty +kitten ssh'
 end
-fish_add_path "$HOME/zls"
+
     # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 # <<< conda initialize <<<
