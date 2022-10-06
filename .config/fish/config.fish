@@ -15,6 +15,9 @@ end
     if type -sq exa
         alias ls='exa' 
     end
+    if type -sq lazygit
+      alias lg='lazygit'
+    end
     alias juliaclient='julia --startup-file=no -e "using DaemonMode; runargs()"'
     alias kssh='kitty +kitten ssh'
 end

@@ -15,7 +15,7 @@ keybinds:
         - action: [SwitchToMode: Resize,]
           key: [Ctrl: 'n',]
         - action: [SwitchToMode: Tab,]
-          key: [Ctrl: 'f',]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Scroll,]
           key: [Ctrl: 's',]
         # - action: [SwitchToMode: Session,]
@@ -54,7 +54,7 @@ keybinds:
         - action: [SwitchToMode: Pane,]
           key: [Ctrl: 'p',]
         - action: [SwitchToMode: Tab,]
-          key: [Ctrl: 'f',]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Normal,]
           key: [Ctrl: 'n', Char: "\n", Char: ' ', Esc]
         - action: [SwitchToMode: Scroll,]
@@ -103,7 +103,7 @@ keybinds:
         - action: [SwitchToMode: Resize,]
           key: [Ctrl: 'n',]
         - action: [SwitchToMode: Tab,]
-          key: [Ctrl: 'f',]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Normal,]
           key: [Ctrl: 'p', Char: "\n", Char: ' ', Esc]
         - action: [SwitchToMode: Scroll,]
@@ -166,7 +166,7 @@ keybinds:
         - action: [SwitchToMode: Pane,]
           key: [Ctrl: 'p',]
         - action: [SwitchToMode: Tab,]
-          key: [Ctrl: 'f',]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Resize,]
           key: [Ctrl: 'n',]
         - action: [SwitchToMode: Normal,]
@@ -276,7 +276,7 @@ keybinds:
         - action: [SwitchToMode: Normal,]
           key: [Ctrl: 's', Char: ' ', Char: "\n", Esc]
         - action: [SwitchToMode: Tab,]
-          key: [Ctrl: 'f',]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Locked,]
           key: [Ctrl: 'g',]
         - action: [SwitchToMode: Pane,]
@@ -378,7 +378,7 @@ keybinds:
         - action: [SwitchToMode: Tmux,]
           key: [Ctrl: 'b',]
         - action: [SwitchToMode: Tab,]
-          key: [Ctrl: 'f',]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Normal,]
           key: [Ctrl: 'o', Char: "\n", Char: ' ', Esc]
         - action: [SwitchToMode: Scroll,]
@@ -413,7 +413,7 @@ keybinds:
         - action: [SwitchToMode: Move,]
           key: [Ctrl: 'h',]
         - action: [SwitchToMode: Tab,]
-          key: [Ctrl: 'f',]
+          key: [Ctrl: 't',]
         - action: [SwitchToMode: Normal,]
           key: [Ctrl: 'o', Char: "\n", Char: ' ', Esc]
         - action: [SwitchToMode: Scroll,]
@@ -511,7 +511,21 @@ default_shell: fish
 # Choose the theme that is specified in the themes section.
 # For some examples, see: https://github.com/zellij-org/zellij/tree/main/example/themes
 # Default: default
-#theme: default
+theme: tokyo-night-storm
+themes:
+  tokyo-night-storm:
+    fg: [169,177,214]
+    bg: [36,40,59]
+    black: [56,62,90]
+    red: [249,51,87]
+    green: [158,206,106]
+    yellow: [224,175,104]
+    blue: [122,162,247]
+    magenta: [187,154,247]
+    cyan: [42,195,222]
+    white: [192,202,245]
+    orange: [255,158,100]
+  
 
 # Choose the mode that zellij uses when starting up.
 # Default: normal
