@@ -1,5 +1,6 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
+    fzf_configure_bindings --directory=\cf
     fish_add_path "$HOME/.local/bin"
     fish_add_path "$HOME/zls"
     fish_add_path "$HOME/cargo/bin"
