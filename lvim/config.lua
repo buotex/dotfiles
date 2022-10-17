@@ -37,6 +37,8 @@ vim.keymap.set({ 'n', 'v' }, "I", "L")
 vim.keymap.set({ 'n', 'v' }, "J", "E")
 vim.keymap.set({ 'n', 'v' }, "K", "N")
 vim.keymap.set({ 'n', 'v' }, "L", "I")
+lvim.keys.normal_mode["K"] = false
+lvim.keys.normal_mode["E"] = vim.lsp.buf.hover
 
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
@@ -169,11 +171,19 @@ formatters.setup {
 -- Additional Plugins
 lvim.plugins = {
   { "folke/tokyonight.nvim" },
+  { "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    module = "persistence",
+    config = function()
+      require("persistence").setup()
+    end,
+  },
   { "nvim-telescope/telescope-live-grep-args.nvim" },
   { "ellisonleao/glow.nvim" },
   {
     "folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
+    cmd = "TroubleToggle",
     config = function()
       require("trouble").setup {
         -- your configuration comes here
@@ -193,6 +203,12 @@ lvim.builtin.telescope.on_config_done = function(telescope)
 end
 -- lvim.builtin.telescope.defaults.layout_strategy = "vertical"
 lvim.builtin.telescope.defaults.layout_config.horizontal.width = 0.95
+
+lvim.builtin.telescope.defaults.mappings.i = vim.tbl_extend("keep",
+  { ["<C-T>"] = function(prompt_bufnr, _mode) require("trouble.providers.telescope").open_with_trouble(prompt_bufnr,
+      _mode)
+  end },
+  lvim.builtin.telescope.defaults.mappings.i)
 
 lvim.builtin.which_key.mappings["s"] = {
   name = "Search",
@@ -214,10 +230,28 @@ lvim.builtin.which_key.mappings["s"] = {
     "Colorscheme with Preview",
   },
 }
+lvim.builtin.which_key.mappings["t"] = {
+  name = "Diagnostics",
+  t = { "<cmd>TroubleToggle<cr>", "trouble" },
+  w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
+  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
+  q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+  l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+  r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+}
+lvim.builtin.which_key.mappings["q"] = {
+  name = "Persistence",
+  s = { "<cmd>lua require('persistence').load()<cr>", "restore for current directory" },
+  l = { "<cmd>lua require('persistence').load({last = true})<cr>", "restore last" },
+}
+
+
 lvim.builtin.alpha.dashboard.section.buttons.entries[1] =
 { "SPC f", "  Find File", "<CMD>Telescope find_files theme=dropdown previewer=false<CR>" }
 lvim.builtin.alpha.dashboard.section.buttons.entries[5] =
 { "SPC s t", "  Find Word", "<CMD>Telescope live_grep_args theme=dropdown<CR>" }
+lvim.builtin.alpha.dashboard.section.buttons.entries[7] =
+{ "SPC q l", "💾 Restore last session", "<CMD>lua require('persistence').load({last=true})<CR>" }
 
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
