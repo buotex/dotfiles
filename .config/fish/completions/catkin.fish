@@ -1,5 +1,5 @@
 # All subcommands that catkin knows - this is useful for later.
-set -l commands build clean config create env init list locate package profile test test_only
+set -l commands build clean config create env init list locate package profile run_tests test test_only
 function __fish_catkin_list_projects
     catkin list -u --quiet
 end
@@ -16,6 +16,8 @@ complete -c catkin -f
 complete -x -c catkin -n "not __fish_seen_subcommand_from $commands" \
     -a "$commands"
 
+complete -c catkin -n "__fish_seen_subcommand_from build run_tests" \
+  -l no-deps -d 'Build without dependencies'
 
 # If the "set-timezone" subcommand is used,
 # offer the output of `timedatectl list-timezones` as completions.
