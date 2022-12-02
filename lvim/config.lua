@@ -196,6 +196,44 @@ lvim.plugins = {
     "sindrets/diffview.nvim",
     event = "BufRead",
   },
+  { "simrat39/symbols-outline.nvim",
+    config = function()
+      require('symbols-outline').setup()
+    end },
+  {
+    "kevinhwang91/nvim-bqf",
+    event = { "BufRead", "BufNew" },
+    config = function()
+      require("bqf").setup({
+        auto_enable = true,
+        preview = {
+          win_height = 12,
+          win_vheight = 12,
+          delay_syntax = 80,
+          border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
+        },
+        func_map = {
+          vsplit = "",
+          ptogglemode = "z,",
+          stoggleup = "",
+        },
+        filter = {
+          fzf = {
+            action_for = { ["ctrl-s"] = "split" },
+            extra_opts = { "--bind", "ctrl-o:toggle-all", "--prompt", "> " },
+          },
+        },
+      })
+    end,
+  },
+  { "ggandor/leap.nvim",
+    requires = "tpope/vim-repeat",
+    config = function()
+      require("leap").add_default_mappings()
+    end
+  }, {
+    "ilyachur/cmake4vim"
+  }
 }
 lvim.builtin.telescope.on_config_done = function(telescope)
   pcall(telescope.load_extension, "live_grep_args")
