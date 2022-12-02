@@ -20,6 +20,10 @@ vim.g.tokyonight_style = "storm"
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.lsp.buffer_mappings.normal_mode["K"] = nil
+lvim.lsp.buffer_mappings.normal_mode["E"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Show hover" }
+lvim.lsp.buffer_mappings.normal_mode["gr"] = { "<cmd>Telescope lsp_references<cr>", "List references" }
+
 -- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 -- lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 -- unmap a default keymapping
@@ -32,13 +36,11 @@ vim.keymap.set({ 'n', 'v' }, "k", "n")
 vim.keymap.set({ 'n', 'v' }, "l", "i")
 
 vim.keymap.set({ 'n', 'v' }, "N", "J")
-vim.keymap.set({ 'n', 'v' }, "E", "K")
+-- vim.keymap.set({ 'n', 'v' }, "E", "K")
 vim.keymap.set({ 'n', 'v' }, "I", "L")
 vim.keymap.set({ 'n', 'v' }, "J", "E")
 vim.keymap.set({ 'n', 'v' }, "K", "N")
 vim.keymap.set({ 'n', 'v' }, "L", "I")
-lvim.keys.normal_mode["K"] = false
-lvim.keys.normal_mode["E"] = vim.lsp.buf.hover
 
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
@@ -183,18 +185,46 @@ lvim.plugins = {
   {
     "folke/trouble.nvim",
     requires = "kyazdani42/nvim-web-devicons",
-    cmd = "TroubleToggle",
-    config = function()
-      require("trouble").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
-    end
   },
   {
     "sindrets/diffview.nvim",
     event = "BufRead",
+  },
+  {
+    "tpope/vim-fugitive",
+    cmd = {
+      "G",
+      "Git",
+      "Gdiffsplit",
+      "Gread",
+      "Gwrite",
+      "Ggrep",
+      "GMove",
+      "GDelete",
+      "GBrowse",
+      "GRemove",
+      "GRename",
+      "Glgrep",
+      "Gedit"
+    },
+    ft = { "fugitive" }
+
+  },
+  {
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-neotest/neotest-python",
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-python")
+        }
+      })
+    end,
   },
 }
 lvim.builtin.telescope.on_config_done = function(telescope)
@@ -204,6 +234,7 @@ end
 -- lvim.builtin.telescope.defaults.layout_strategy = "vertical"
 lvim.builtin.telescope.defaults.layout_config.horizontal.width = 0.95
 
+local actions = require("telescope.actions")
 lvim.builtin.telescope.defaults.mappings.i = vim.tbl_extend("keep",
   { ["<C-T>"] = function(prompt_bufnr, _mode) require("trouble.providers.telescope").open_with_trouble(prompt_bufnr,
       _mode)
@@ -230,7 +261,7 @@ lvim.builtin.which_key.mappings["s"] = {
     "Colorscheme with Preview",
   },
 }
-lvim.builtin.which_key.mappings["t"] = {
+lvim.builtin.which_key.mappings["d"] = {
   name = "Diagnostics",
   t = { "<cmd>TroubleToggle<cr>", "trouble" },
   w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
@@ -241,17 +272,40 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 lvim.builtin.which_key.mappings["q"] = {
   name = "Persistence",
-  s = { "<cmd>lua require('persistence').load()<cr>", "restore for current directory" },
+  d = { "<cmd>lua require('persistence').stop()<cr>", "Stop saving session" },
   l = { "<cmd>lua require('persistence').load({last = true})<cr>", "restore last" },
+  s = { "<cmd>lua require('persistence').load()<cr>", "restore for current directory" },
+}
+lvim.builtin.which_key.mappings["t"] = {
+  name = "ﭧ Test",
+  f = {
+    "<cmd>lua require('neotest').run.run({vim.fn.expand('%'), env=require('user.ntest').get_env()})<cr>",
+    "File",
+  },
+  o = { "<cmd>lua require('neotest').output.open({ enter = true, short = false })<cr>", "Output" },
+  r = { "<cmd>lua require('neotest').run.run({env=require('user.ntest').get_env()})<cr>", "Run" },
+  a = { "<cmd>lua require('user.ntest').run_all()<cr>", "Run All" },
+  c = { "<cmd>lua require('user.ntest').cancel()<cr>", "Cancel" },
+  R = { "<cmd>lua require('user.ntest').run_file_sync()<cr>", "Run Async" },
+  s = { "<cmd>lua require('neotest').summary.toggle()<cr>", "Summary" },
+  n = { "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", "jump to next failed" },
+  p = { "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", "jump to previous failed" },
+  d = { "<cmd>lua require('neotest').run.run({ strategy = 'dap' })<cr>", "Dap Run" },
+  x = { "<cmd>lua require('neotest').run.stop()<cr>", "Stop" },
+  w = { "<cmd>lua require('neotest').watch.watch()<cr>", "Watch" },
 }
 
 
 lvim.builtin.alpha.dashboard.section.buttons.entries[1] =
-{ "SPC f", "  Find File", "<CMD>Telescope find_files theme=dropdown previewer=false<CR>" }
+{ "SPC f", "  Find File", "<CMD>Telescope find_files<CR>" }
 lvim.builtin.alpha.dashboard.section.buttons.entries[5] =
-{ "SPC s t", "  Find Word", "<CMD>Telescope live_grep_args theme=dropdown<CR>" }
+{ "SPC s t", "  Find Word", "<CMD>Telescope live_grep_args<CR>" }
 lvim.builtin.alpha.dashboard.section.buttons.entries[7] =
 { "SPC q l", "💾 Restore last session", "<CMD>lua require('persistence').load({last=true})<CR>" }
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" },
+  { pattern = { "COMMIT_EDITMSG", "MERGEMSG" },
+    command = [[lua require('persistence').stop()]] })
 
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
