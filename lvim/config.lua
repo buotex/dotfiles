@@ -9,8 +9,12 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- general
-lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.log.level = "info"
+lvim.format_on_save = {
+  enabled = true,
+  pattern = "*.lua",
+  timeout = 1000,
+}
 lvim.colorscheme = "tokyonight"
 vim.g.tokyonight_style = "storm"
 -- to disable icons and use a minimalist setup, uncomment the following
@@ -69,10 +73,8 @@ vim.keymap.set({ 'n', 'v' }, "L", "I")
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.autopairs.active = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -334,12 +336,13 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 
 
-lvim.builtin.alpha.dashboard.section.buttons.entries[1] =
-{ "SPC f", "  Find File", "<CMD>Telescope find_files<CR>" }
-lvim.builtin.alpha.dashboard.section.buttons.entries[5] =
-{ "SPC s t", "  Find Word", "<CMD>Telescope live_grep_args<CR>" }
-lvim.builtin.alpha.dashboard.section.buttons.entries[7] =
-{ "SPC q l", "💾 Restore last session", "<CMD>lua require('persistence').load({last=true})<CR>" }
+local dashboard = require "alpha.themes.dashboard"
+lvim.builtin.alpha.dashboard.section.buttons.val[1] =
+dashboard.button("SPC f", "  Find File", "<CMD>Telescope find_files<CR>")
+lvim.builtin.alpha.dashboard.section.buttons.val[5] =
+dashboard.button("SPC s t", "  Find Word", "<CMD>Telescope live_grep_args<CR>")
+lvim.builtin.alpha.dashboard.section.buttons.val[7] =
+dashboard.button("SPC q l", "💾 Restore last session", "<CMD>lua require('persistence').load({last=true})<CR>")
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" },
   { pattern = { "COMMIT_EDITMSG", "MERGEMSG" },
