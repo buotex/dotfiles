@@ -74,6 +74,7 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.autopairs.active = false
+lvim.builtin.lualine.style = "default" -- or "none"
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -264,6 +265,17 @@ lvim.plugins = {
       })
     end,
   },
+  {
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'kyazdani42/nvim-web-devicons',
+    },
+    config = function()
+      require "octo".setup()
+    end
+  }
 }
 lvim.builtin.telescope.on_config_done = function(telescope)
   pcall(telescope.load_extension, "live_grep_args")
@@ -279,6 +291,13 @@ lvim.builtin.telescope.defaults.mappings.i = vim.tbl_extend("keep",
   end },
   lvim.builtin.telescope.defaults.mappings.i)
 
+lvim.builtin.which_key.mappings["m"] = {
+  name = "Make",
+  b = { "<cmd>CMakeBuild<cr>", "CMake Build" },
+  c = { "<cmd>CMakeClean<cr>", "CMake Clean" },
+  t = { "<cmd>CMakeBuild tests <cr> CTest<cr>", "Run tests" },
+
+}
 lvim.builtin.which_key.mappings["s"] = {
   name = "Search",
   b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
@@ -345,13 +364,23 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" },
   { pattern = { "COMMIT_EDITMSG", "MERGEMSG" },
     command = [[lua require('persistence').stop()]] })
 
+vim.g.CMAKE_LOCATIONS = vim.api.nvim_eval('{}')
+vim.g.CMAKE_PROJECTS = vim.api.nvim_eval('{}')
+--vim.api.nvim_create_autocmd({ "BufReadPost" },
+--  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
+--    command = [[
+--    let filename = findfile('CMakeLists.txt', '.;')
+--    let g:CMAKE_LOCATIONS[expand('%:p')]=filename |
+--    let g:CMAKE_PROJECTS[expand('%:p')]=matchlist(readfile(filename), 'project(\([a-z_]\+\))')[1]
+--    ]] })
+--
+--vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
+--  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
+--    command = [[ let g:cmake_src_dir=fnamemodify(g:CMAKE_LOCATIONS[expand("%:p")], ':h') |
+--                 let g:cmake_build_dir=$CATKIN_BUILD_DIR . "/" . g:CMAKE_PROJECTS[expand("%:p")] |
+--    ]] })
+vim.g.make_arguments = "-j28"
 
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- vim.api.nvim_create_autocmd("BufEnter", {
---   pattern = { "*.json", "*.jsonc" },
---   -- enable wrap mode for json files only
---   command = "setlocal wrap",
--- })
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "zsh",
 --   callback = function()
