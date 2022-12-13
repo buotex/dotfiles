@@ -77,6 +77,10 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.autopairs.active = false
 lvim.builtin.lualine.style = "default" -- or "none"
+lvim.builtin.project.manual_mode = true
+lvim.builtin.telescope.pickers.find_files.previewer = nil
+lvim.builtin.telescope.pickers.git_files.previewer = nil
+
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
