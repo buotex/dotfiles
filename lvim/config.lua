@@ -80,6 +80,7 @@ lvim.builtin.lualine.style = "default" -- or "none"
 lvim.builtin.project.manual_mode = true
 lvim.builtin.telescope.pickers.find_files.previewer = nil
 lvim.builtin.telescope.pickers.git_files.previewer = nil
+lvim.builtin.which_key.setup.registers = true
 
 
 -- if you don't want all the parsers change this to a table of the ones you want
