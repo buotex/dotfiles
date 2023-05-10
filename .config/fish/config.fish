@@ -23,8 +23,10 @@ end
         alias ls='exa' 
     end
     if type -sq lazygit
-      alias lg='lazygit'
+      abbr --add lg lazygit
     end
+    abbr --add cb catkin build
+    abbr --add cbn catkin build --no-deps
     alias juliaclient='julia --startup-file=no -e "using DaemonMode; runargs()"'
     alias kssh='kitty +kitten ssh'
 end

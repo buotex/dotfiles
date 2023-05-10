@@ -27,6 +27,9 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.lsp.buffer_mappings.normal_mode["K"] = nil
 lvim.lsp.buffer_mappings.normal_mode["E"] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Show hover" }
 lvim.lsp.buffer_mappings.normal_mode["gr"] = { "<cmd>Telescope lsp_references<cr>", "List references" }
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "clangd" })
+
+
 
 -- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 -- lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
@@ -77,10 +80,10 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.autopairs.active = false
 lvim.builtin.lualine.style = "default" -- or "none"
-lvim.builtin.project.manual_mode = true
+lvim.builtin.project.manual_mode = false
 lvim.builtin.telescope.pickers.find_files.previewer = nil
 lvim.builtin.telescope.pickers.git_files.previewer = nil
-lvim.builtin.which_key.setup.registers = true
+lvim.builtin.which_key.setup.plugins.registers = true
 
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -106,7 +109,9 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
--- lvim.lsp.installer.setup.ensure_installed = {
+lvim.lsp.installer.setup.ensure_installed = {
+  "clangd",
+}
 --     "sumeko_lua",
 --     "jsonls",
 -- }
@@ -180,7 +185,6 @@ formatters.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-  { "folke/tokyonight.nvim" },
   { "folke/persistence.nvim",
     event = "BufReadPre", -- this will only start session saving when an actual file was opened
     module = "persistence",
@@ -370,24 +374,52 @@ dashboard.button("SPC q l", "💾 Restore last session", "<CMD>lua require('pers
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" },
   { pattern = { "COMMIT_EDITMSG", "MERGEMSG" },
-    command = [[lua require('persistence').stop()]] })
+    command = [[ lua require('persistence').stop() ]] })
 
-vim.g.CMAKE_LOCATIONS = vim.api.nvim_eval('{}')
-vim.g.CMAKE_PROJECTS = vim.api.nvim_eval('{}')
---vim.api.nvim_create_autocmd({ "BufReadPost" },
---  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
---    command = [[
---    let filename = findfile('CMakeLists.txt', '.;')
---    let g:CMAKE_LOCATIONS[expand('%:p')]=filename |
---    let g:CMAKE_PROJECTS[expand('%:p')]=matchlist(readfile(filename), 'project(\([a-z_]\+\))')[1]
---    ]] })
---
---vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
---  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
---    command = [[ let g:cmake_src_dir=fnamemodify(g:CMAKE_LOCATIONS[expand("%:p")], ':h') |
---                 let g:cmake_build_dir=$CATKIN_BUILD_DIR . "/" . g:CMAKE_PROJECTS[expand("%:p")] |
---    ]] })
+vim.api.nvim_create_autocmd({ "BufReadPost" },
+  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
+    command = [[
+    let filename = findfile('CMakeLists.txt', '.;')
+    let g:CMAKE_LOCATIONS = get(g:, "CMAKE_LOCATIONS", {})
+    silent! let g:CMAKE_LOCATIONS[expand('%:p')]=filename
+    let g:CMAKE_PROJECTS = get(g:, "CMAKE_PROJECTS", {})
+    silent! let g:CMAKE_PROJECTS[expand('%:p')]=matchlist(readfile(filename), 'project(\([a-z_]\+\))')[1]
+    ]] })
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
+  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
+    command = [[ silent! let g:cmake_src_dir=fnamemodify(g:CMAKE_LOCATIONS[expand("%:p")], ':h') |
+                 silent! let g:cmake_build_dir=$CATKIN_BUILD_DIR . "/" . g:CMAKE_PROJECTS[expand("%:p")] |
+    ]] })
 vim.g.make_arguments = "-j28"
+
+function Find_cmake_dir(fname)
+  local util = require("lspconfig/util")
+  local filename = util.path.is_absolute(fname) and fname
+      or util.path.join(vim.loop.cwd(), fname)
+  local cmake_pattern = util.root_pattern("CMakeLists.txt")
+  return cmake_pattern(filename)
+end
+
+function Find_project_name(cmake_dir)
+  local cmake_path = cmake_dir .. "/CMakeLists.txt"
+  if (cmake_path)
+  then
+    local project_name = vim.fn.matchlist(vim.fn.readfile(cmake_path), 'project(\\([a-z_]\\+\\))')[2]
+    return project_name
+  end
+  return ""
+end
+
+function Find_project_dir(fname)
+  local catkin_build_dir = os.getenv("CATKIN_BUILD_DIR")
+  print(catkin_build_dir)
+  local cmake_dir = Find_cmake_dir(fname)
+  print(cmake_dir)
+  local project_name = Find_project_name(cmake_dir)
+  print(project_name)
+  return catkin_build_dir .. "/" .. project_name
+end
 
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "zsh",
