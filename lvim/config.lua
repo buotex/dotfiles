@@ -150,6 +150,14 @@ lvim.lsp.installer.setup.ensure_installed = {
 -- end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+
+-- add `pyright` to `skipped_servers` list
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+-- remove `jedi_language_server` from `skipped_servers` list
+lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+  return server ~= "jedi_language_server"
+end, lvim.lsp.automatic_configuration.skipped_servers)
+
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "black", filetypes = { "python" } },
@@ -187,7 +195,6 @@ formatters.setup {
 lvim.plugins = {
   { "folke/persistence.nvim",
     event = "BufReadPre", -- this will only start session saving when an actual file was opened
-    module = "persistence",
     config = function()
       require("persistence").setup()
     end,
@@ -196,7 +203,7 @@ lvim.plugins = {
   { "ellisonleao/glow.nvim" },
   {
     "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
+    dependencies = {"nvim-tree/nvim-web-devicons"},
   },
   {
     "sindrets/diffview.nvim",
@@ -223,7 +230,7 @@ lvim.plugins = {
   },
   {
     "nvim-neotest/neotest",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
@@ -238,7 +245,7 @@ lvim.plugins = {
     end,
   },
   { "ggandor/leap.nvim",
-    requires = "tpope/vim-repeat",
+    dependencies = {"tpope/vim-repeat"},
     config = function()
       require("leap").add_default_mappings()
     end
@@ -278,10 +285,10 @@ lvim.plugins = {
   },
   {
     'pwntester/octo.nvim',
-    requires = {
+    dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
     },
     config = function()
       require "octo".setup()
@@ -293,7 +300,6 @@ lvim.builtin.telescope.on_config_done = function(telescope)
   -- any other extensions loading
 end
 -- lvim.builtin.telescope.defaults.layout_strategy = "vertical"
-lvim.builtin.telescope.defaults.layout_config.horizontal.width = 0.95
 
 local actions = require("telescope.actions")
 lvim.builtin.telescope.defaults.mappings.i = vim.tbl_extend("keep",
@@ -364,13 +370,13 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 
 
-local dashboard = require "alpha.themes.dashboard"
-lvim.builtin.alpha.dashboard.section.buttons.val[1] =
-dashboard.button("SPC f", "  Find File", "<CMD>Telescope find_files<CR>")
-lvim.builtin.alpha.dashboard.section.buttons.val[5] =
-dashboard.button("SPC s t", "  Find Word", "<CMD>Telescope live_grep_args<CR>")
-lvim.builtin.alpha.dashboard.section.buttons.val[7] =
-dashboard.button("SPC q l", "💾 Restore last session", "<CMD>lua require('persistence').load({last=true})<CR>")
+--local dashboard = require "alpha.themes.dashboard"
+--lvim.builtin.alpha.dashboard.section.buttons.val[1] =
+--dashboard.button("SPC f", "  Find File", "<CMD>Telescope find_files<CR>")
+--lvim.builtin.alpha.dashboard.section.buttons.val[5] =
+--dashboard.button("SPC s t", "  Find Word", "<CMD>Telescope live_grep_args<CR>")
+--lvim.builtin.alpha.dashboard.section.buttons.val[7] =
+--dashboard.button("SPC q l", "💾 Restore last session", "<CMD>lua require('persistence').load({last=true})<CR>")
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" },
   { pattern = { "COMMIT_EDITMSG", "MERGEMSG" },
