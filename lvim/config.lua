@@ -109,9 +109,9 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
-lvim.lsp.installer.setup.ensure_installed = {
-  "clangd",
-}
+-- lvim.lsp.installer.setup.ensure_installed = {
+--   "clangd",
+-- }
 --     "sumeko_lua",
 --     "jsonls",
 -- }
@@ -152,10 +152,10 @@ lvim.lsp.installer.setup.ensure_installed = {
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
 
 -- add `pyright` to `skipped_servers` list
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright", "jedi_language_server" })
 -- remove `jedi_language_server` from `skipped_servers` list
 lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
-  return server ~= "jedi_language_server"
+  return server ~= "ruff_lsp"
 end, lvim.lsp.automatic_configuration.skipped_servers)
 
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -203,7 +203,7 @@ lvim.plugins = {
   { "ellisonleao/glow.nvim" },
   {
     "folke/trouble.nvim",
-    dependencies = {"nvim-tree/nvim-web-devicons"},
+    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
     "sindrets/diffview.nvim",
@@ -245,7 +245,7 @@ lvim.plugins = {
     end,
   },
   { "ggandor/leap.nvim",
-    dependencies = {"tpope/vim-repeat"},
+    dependencies = { "tpope/vim-repeat" },
     config = function()
       require("leap").add_default_mappings()
     end
@@ -303,9 +303,12 @@ end
 
 local actions = require("telescope.actions")
 lvim.builtin.telescope.defaults.mappings.i = vim.tbl_extend("keep",
-  { ["<C-T>"] = function(prompt_bufnr, _mode) require("trouble.providers.telescope").open_with_trouble(prompt_bufnr,
-      _mode)
-  end },
+  {
+    ["<C-T>"] = function(prompt_bufnr, _mode)
+      require("trouble.providers.telescope").open_with_trouble(prompt_bufnr,
+        _mode)
+    end
+  },
   lvim.builtin.telescope.defaults.mappings.i)
 
 lvim.builtin.which_key.mappings["m"] = {
@@ -313,7 +316,6 @@ lvim.builtin.which_key.mappings["m"] = {
   b = { "<cmd>CMakeBuild<cr>", "CMake Build" },
   c = { "<cmd>CMakeClean<cr>", "CMake Clean" },
   t = { "<cmd>CMakeBuild tests <cr> CTest<cr>", "Run tests" },
-
 }
 lvim.builtin.which_key.mappings["s"] = {
   name = "Search",
@@ -379,24 +381,30 @@ lvim.builtin.which_key.mappings["t"] = {
 --dashboard.button("SPC q l", "💾 Restore last session", "<CMD>lua require('persistence').load({last=true})<CR>")
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" },
-  { pattern = { "COMMIT_EDITMSG", "MERGEMSG" },
-    command = [[ lua require('persistence').stop() ]] })
+  {
+    pattern = { "COMMIT_EDITMSG", "MERGEMSG" },
+    command = [[ lua require('persistence').stop() ]]
+  })
 
 vim.api.nvim_create_autocmd({ "BufReadPost" },
-  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
+  {
+    pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
     command = [[
     let filename = findfile('CMakeLists.txt', '.;')
     let g:CMAKE_LOCATIONS = get(g:, "CMAKE_LOCATIONS", {})
     silent! let g:CMAKE_LOCATIONS[expand('%:p')]=filename
     let g:CMAKE_PROJECTS = get(g:, "CMAKE_PROJECTS", {})
     silent! let g:CMAKE_PROJECTS[expand('%:p')]=matchlist(readfile(filename), 'project(\([a-z_]\+\))')[1]
-    ]] })
+    ]]
+  })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" },
-  { pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
+  {
+    pattern = { "*.cpp", "*.h", "*.cpp.in", "*.h.in" },
     command = [[ silent! let g:cmake_src_dir=fnamemodify(g:CMAKE_LOCATIONS[expand("%:p")], ':h') |
                  silent! let g:cmake_build_dir=$CATKIN_BUILD_DIR . "/" . g:CMAKE_PROJECTS[expand("%:p")] |
-    ]] })
+    ]]
+  })
 vim.g.make_arguments = "-j28"
 
 function Find_cmake_dir(fname)
