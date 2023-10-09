@@ -8,6 +8,7 @@ if status is-interactive
         nvm use lts
     end
     set -Ux EDITOR lvim
+    set -Ux AZCOPY_CONCURRENCY_VALUE 4
 if set -q KITTY_INSTALLATION_DIR
     set --global KITTY_SHELL_INTEGRATION enabled
     source "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_conf.d/kitty-shell-integration.fish"
