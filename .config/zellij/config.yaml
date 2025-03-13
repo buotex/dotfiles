@@ -20,6 +20,8 @@ keybinds:
           key: [Ctrl: 'h',]
         - action: [SwitchToMode: Tmux,]
           key: [Ctrl: 'b',]
+        - action: [SwitchToMode: Scroll,]
+          key: [Ctrl: 's',]
         - action: [Quit,]
           key: [Ctrl: 'q',]
         - action: [NewPane: ]
