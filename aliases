@@ -1,6 +1,0 @@
-alias git="noglob /usr/bin/git"
-alias ls="exa"
-alias l='ls -l'
-alias la='ls -a'
-alias ll='ls -la'
-alias lt='ls --tree'
