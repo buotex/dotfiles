@@ -1,127 +1,94 @@
-local which_key = require "which-key"
+local which_key = require("which-key")
 local builtin = require('telescope.builtin')
+local telescope = require('telescope')
+local actions = require('telescope.actions')
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('user_lsp_attach', { clear = true }),
-  callback = function(event)
-    local opts = { buffer = event.buf }
 
-    local mappings = {
-      g = {
-        d = { vim.lsp.buf.definition, "Go to definition" },
-        l = { vim.diagnostic.open_float, "Open diagnostic float" },
-      },
-      K = { vim.lsp.buf.hover, "Show hover information" },
-      ["<leader>"] = {
-        l = {
-          name = "LSP",
-          a = { vim.lsp.buf.code_action, "Code action" },
-          r = { vim.lsp.buf.references, "References" },
-          n = { vim.lsp.buf.rename, "Rename" },
-          w = { vim.lsp.buf.workspace_symbol, "Workspace symbol" },
-          d = { vim.diagnostic.open_float, "Open diagnostic float" },
-        },
-      },
-      ["[d"] = { vim.diagnostic.goto_next, "Go to next diagnostic" },
-      ["]d"] = { vim.diagnostic.goto_prev, "Go to previous diagnostic" },
-    }
-
-    which_key.register(mappings, opts)
-
-    -- vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
-    -- vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
-    -- vim.keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
-    -- vim.keymap.set('n', '<leader>vd', function() vim.diagnostic.open_float() end, opts)
-    -- vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, opts)
-    -- vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, opts)
-    -- vim.keymap.set('n', '<leader>lca', function() vim.lsp.buf.code_action() end, opts)
-    -- vim.keymap.set('n', '<leader>lrr', function() vim.lsp.buf.references() end, opts)
-    -- vim.keymap.set('n', '<leader>lrn', function() vim.lsp.buf.rename() end, opts)
-    -- vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
-
-    -- https://www.mitchellhanberg.com/modern-format-on-save-in-neovim/
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = event.buf,
-      callback = function()
-        vim.lsp.buf.format { async = false, id = event.data.client_id }
-      end
-
-    })
-  end,
+which_key.add({
+  { "<leader>e", "<cmd>Yazi<cr>", desc = "Explore files" },
 })
 
-local non_lsp_mappings = {
-  ["<leader>"] = {
-    e = { vim.cmd.Ex, "Open file explorer" },
-    p = { "\"_dP", "Paste without overwrite" },
-    ["/"] = { "<Plug>(comment_toggle_linewise_current)", "Toggle comment" },
-    s = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Search and replace word under cursor" },
-    t = { ":Today<CR>", "Open today's note" },
-  },
-  J = { "mzJ`z", "Join lines and keep cursor position" },
-  ["<C-d>"] = { "<C-d>zz", "Half page down and center" },
-  ["<C-u>"] = { "<C-u>zz", "Half page up and center" },
-  n = { "nzzzv", "Next search result and center" },
-  N = { "Nzzzv", "Previous search result and center" },
-  Q = { "<nop>", "Disable Ex mode" },
-}
-
-which_key.register(non_lsp_mappings)
-
--- vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
--- vim.keymap.set("n", "J", "mzJ`z")       -- Keep cursor in same position on line join
--- vim.keymap.set("n", "<C-d>", "<C-d>zz") -- Keep cursor in middle on half page jump down
--- vim.keymap.set("n", "<C-u>", "<C-u>zz") -- Keep cursor in middle on half page jump down
--- vim.keymap.set("n", "n", "nzzzv")       -- Keep searched term in middle
--- vim.keymap.set("n", "N", "Nzzzv")       -- Keep reverse searched term in middle
--- vim.keymap.set("n", "Q", "<nop>")       --- Just undo capital Q support
--- vim.keymap.set("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)")
--- vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
--- vim.keymap.set("n", "<leader>t", ":Today<CR>")
 
 -- Telescope Commands
 
-local telescope_mappings = {
-  f = {
-    name = "Find",
-    f = { builtin.find_files, "Find files" },
-    g = { builtin.git_files, "Find git files" },
-    l = { builtin.live_grep, "Live grep" },
-  },
-}
-
-which_key.register(telescope_mappings, { prefix = "<leader>" })
-
--- Register the semicolon mapping separately as it doesn't use the leader prefix
-which_key.register({
-  [";"] = { builtin.buffers, "Find buffers" },
+which_key.add({
+  { "<leader>s",  group = "Search" },
+  { "<leader>sf", builtin.find_files, desc = "Search files" },
+  { "<leader>sg", builtin.git_files,  desc = "Search git files" },
+  { "<leader>ss", builtin.grep_string,  desc = "Search text under cursor" },
+  { "<leader>st", builtin.live_grep,  desc = "Search text" },
+  { "<leader>sh", builtin.help_tags,  desc = "Search help tags" },
+  { "<leader>sl", builtin.lsp_references,  desc = "List references" },
+  { "<leader>sd", "<cmd>Telescope live_grep search_dirs={vim.fn.expand('%:p:h')}<CR>", desc = "Search Text in Subdirectory" },
+  { "<leader>so", "<cmd>Telescope live_grep grep_open_files=true<CR>", desc = "Search Text in open files" },
+  { "<leader>sr", builtin.oldfiles, desc = "Open Recent File" },
+  { "<leader>sx", builtin.resume, desc = "Resume" },
 })
 
--- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
--- vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
--- vim.keymap.set('n', '<leader>fl', builtin.live_grep, {})
--- vim.keymap.set('n', ';', builtin.buffers, {})
+which_key.add({
+  { "<leader>l",  group = "Lsp search" },
+  { "<leader>lr", builtin.lsp_references, desc = "Lists lsp references" },
+  { "<leader>lb", builtin.lsp_document_symbols, desc = "Lists lsp buffer symbols" },
+  { "<leader>lw", builtin.lsp_workspace_symbols, desc = "Lists lsp workspace symbols" },
+  { "<leader>ld", builtin.diagnostics, desc = "Lists lsp diagnostics symbols" },
+})
 
+which_key.add({
+  { "<leader>g",  group = "Git" },
+  { "<leader>gs", builtin.git_status, desc = "Git status" },
+  { "<leader>gt", builtin.git_stash, desc = "Git stash" },
+  { "<leader>gc", builtin.git_commits, desc = "Git commits" },
+  { "<leader>gb", builtin.git_bcommits, desc = "Git commits for buffer" },
+  { "<leader>gr", builtin.git_bcommits_range, desc = "Git commits for buffer, ranged" },
+})
 
+which_key.add({
+  { "gd",  builtin.lsp_definitions, desc="Go to definition" },
+  { "gi",  builtin.lsp_implementations, desc="Go to implementation" },
+})
 
--- Use move command while highlighted to move text
--- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
--- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+-- Register the semicolon mapping separately as it doesn't use the leader prefix
+which_key.add({
+  { ";", builtin.buffers, desc = "Find buffers" },
+  { "E", "<cmd>lua vim.lsp.buf.hover()<cr>", desc = "Hover" , mode = 'n'}
+})
 
--- vim.keymap.set("v", "<leader>/", "<Plug>(comment_toggle_linewise_visual)")
-
-local visual_mappings = {
-  J = { ":m '>+1<CR>gv=gv", "Move selection down" },
-  K = { ":m '<-2<CR>gv=gv", "Move selection up" },
-  ["<leader>"] = {
-    ["/"] = { "<Plug>(comment_toggle_linewise_visual)", "Toggle comment" },
-  },
-}
-
-which_key.register(visual_mappings, { mode = "v" })
-
---- Don't overwrite pastes in visual mode
--- vim.keymap.set("x", "<leader>p", "\"_dP")
+which_key.add({
+    {
+      "<leader>x",
+      group = "Trouble"
+    },
+    {
+      "<leader>xx",
+      "<cmd>Trouble diagnostics toggle<cr>",
+      desc = "Diagnostics (Trouble)",
+    },
+    {
+      "<leader>xX",
+      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+      desc = "Buffer Diagnostics (Trouble)",
+    },
+    {
+      "<leader>xs",
+      "<cmd>Trouble symbols toggle focus=false<cr>",
+      desc = "Symbols (Trouble)",
+    },
+    {
+      "<leader>xl",
+      "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+      desc = "LSP Definitions / references / ... (Trouble)",
+    },
+    {
+      "<leader>xL",
+      "<cmd>Trouble loclist toggle<cr>",
+      desc = "Location List (Trouble)",
+    },
+    {
+      "<leader>xQ",
+      "<cmd>Trouble qflist toggle<cr>",
+      desc = "Quickfix List (Trouble)",
+    },
+  })
 
 
 -- Format command
@@ -131,16 +98,32 @@ which_key.register(visual_mappings, { mode = "v" })
 
 -- insert commands
 
-vim.keymap.set({ 'n', 'v' }, "n", "j")
-vim.keymap.set({ 'n', 'v' }, "e", "k")
-vim.keymap.set({ 'n', 'v' }, "i", "l")
-vim.keymap.set({ 'n', 'v' }, "j", "e")
-vim.keymap.set({ 'n', 'v' }, "k", "n")
-vim.keymap.set({ 'n', 'v' }, "l", "i")
+vim.keymap.set({ 'n', 'v' }, "n", "j") -- down
+vim.keymap.set({ 'n', 'v' }, "e", "k") -- up
+vim.keymap.set({ 'n', 'v' }, "i", "l") -- right
+vim.keymap.set({ 'n', 'v' }, "l", "i") -- insert before
+vim.keymap.set({ 'n', 'v' }, "k", "n") -- search forward
+vim.keymap.set({ 'n', 'v' }, "K", "N") -- search backward
+vim.keymap.set({ 'n', 'v' }, "N", "L") -- go to bottom
+vim.keymap.set({ 'n', 'v' }, "L", "I") -- insert beginning of line
 
-vim.keymap.set({ 'n', 'v' }, "N", "J")
+telescope.setup {
+    defaults = {
+        mappings = {
+            i = {
+                ["<c-d>"] = actions.delete_buffer,
+            },
+            n = {
+                ["<c-d>"] = actions.delete_buffer,
+            },
+        },
+    },
+}
+
+-- vim.keymap.set({ 'n', 'v' }, "j", "e") -- 
+--vim.keymap.set({ 'n', 'v' }, "N", "J")
 -- vim.keymap.set({ 'n', 'v' }, "E", "K")
-vim.keymap.set({ 'n', 'v' }, "I", "L")
-vim.keymap.set({ 'n', 'v' }, "J", "E")
-vim.keymap.set({ 'n', 'v' }, "K", "N")
-vim.keymap.set({ 'n', 'v' }, "L", "I")
+--vim.keymap.set({ 'n', 'v' }, "I", "L")
+--vim.keymap.set({ 'n', 'v' }, "J", "E")
+--vim.keymap.set({ 'n', 'v' }, "K", "N")
+--vim.keymap.set({ 'n', 'v' }, "L", "I")

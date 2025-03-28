@@ -4,7 +4,8 @@ return {
   cmd = { "ConformInfo" },
   opts = {
     formatters_by_ft = {
-      markdown = { "prettierd" }
+      markdown = { "prettierd" },
+      python = { "ruff" }
     },
     -- Set default options
     default_format_ops = {

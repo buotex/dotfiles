@@ -3,6 +3,14 @@
 -- https://github.com/ThePrimeagen/init.lua/blob/master/lua/theprimeagen/lazy/lsp.lua
 return {
   "neovim/nvim-lspconfig",
+  opts = {
+      servers = {
+        pyright = {
+          mason = false,
+          autostart = false
+        },
+      },
+    },
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -29,9 +37,9 @@ return {
 
     require('mason-lspconfig').setup({
       ensure_installed = {
-        "tsserver",
         "lua_ls",
-        "ruff"
+        "ruff",
+        "pylsp"
       },
       handlers = {
         function(server_name)
@@ -57,6 +65,27 @@ return {
                 }
               }
             }
+          })
+        end,
+        ruff = function()
+          require('lspconfig').ruff.setup({
+          })
+        end,
+        pylsp = function()
+          require('lspconfig').pylsp.setup({
+            settings = {
+              pylsp = {
+                plugins = {
+                  pyflakes = {enabled = false},
+                  pylint = {enabled = false},
+                  pycodestyle = {enabled = false},
+                  mccabe = {enabled = false},
+                  autopep8 = {enabled = false},
+                  yapf = {enabled = false},
+                },
+              }
+            }
+
           })
         end
       }
